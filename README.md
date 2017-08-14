@@ -1,2 +1,4 @@
-# ZMAndroidLog
-安卓方法工具类积累
+# ZMAndroidLog #
+##broadcast
+* BootBroadcastReceiver开机自启
+* PowerStateChangeReceiver监听充电断点状态、断点后关机
