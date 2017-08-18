@@ -1,13 +1,15 @@
-//关机系统级别
-//android:sharedUserId="android.uid.system"
-//<uses-permission android:name="android.permission.SHUTDOWN"/>
-//
-//<receiver android:name=".PowerStateChangeReceiver" >
-//<intent-filter>
-//<action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-//<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-//</intent-filter>
-//</receiver>
+/*
+关机系统级别<manifes>里添加：
+android:sharedUserId="android.uid.system"
+<uses-permission android:name="android.permission.SHUTDOWN"/>
+
+<receiver android:name=".PowerStateChangeReceiver" >
+<intent-filter>
+<action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+</intent-filter>
+</receiver>
+ */
 package com.zm.zmandroidlog.broadcast;
 
 import android.content.BroadcastReceiver;
