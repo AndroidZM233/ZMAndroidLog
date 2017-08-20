@@ -11,7 +11,6 @@ java基础数据类型转换：
 
 package com.zm.utilslib.data;
 
-import android.util.Log;
 
 /**
  * Created by 张明_ on 2017/8/18.
@@ -24,7 +23,6 @@ public class DataConversionUtil {
     /**
      * byte[] --> 16进制String
      * byte[]{0x2B, 0x44, 0xEF,0xD9} --> "2B44EFD9"
-     *
      * @param src byte[]
      * @return 16进制String
      */
@@ -41,42 +39,29 @@ public class DataConversionUtil {
             }
             stringBuilder.append(hv);
         }
-        return stringBuilder.toString();
+        return stringBuilder.toString().toUpperCase();
     }
 
-    public static byte[] hexStringToBytes(String temp) {
-        String src = temp.replace(" ", "");
-        System.out.println(" src= " + src);
-        byte[] ret = new byte[src.length() / 2];
-        byte[] tmp = src.getBytes();
-        for (int i = 0; i < src.length() / 2; i++) {
-            ret[i] = uniteBytes(tmp[i * 2], tmp[i * 2 + 1]);
-        }
-        return ret;
-    }
     /**
-     * 将两个ASCII字符合成一个字节； 如："EF"--> 0xEF
-     *
-     * @param src0 byte
-     * @param src1 byte
-     * @return byte
+     * 16进制String  --> byte[]
+     * @param hexString String 十六进制
+     * @return byte[]
      */
-    public static byte uniteBytes(byte src0, byte src1) {
-        try {
-            byte _b0 = Byte.decode("0x" + new String(new byte[]{src0}))
-                    .byteValue();
-            _b0 = (byte) (_b0 << 4);
-            byte _b1 = Byte.decode("0x" + new String(new byte[]{src1}))
-                    .byteValue();
-            byte ret = (byte) (_b0 ^ _b1);
-            return ret;
-        } catch (Exception e) {
-            // TODO: handle exception
-            return 0;
+    public static byte[] hexStringToBytes(String hexString) {
+        if (hexString == null || hexString.equals("")) {
+            return null;
         }
-
+        hexString = hexString.toUpperCase();
+        int length = hexString.length() / 2;
+        char[] hexChars = hexString.toCharArray();
+        byte[] d = new byte[length];
+        for (int i = 0; i < length; i++) {
+            int pos = i * 2;
+            d[i] = (byte) (charToByte(hexChars[pos]) << 4 | charToByte(hexChars[pos + 1]));
+        }
+        return d;
     }
-    private static byte toByte(char c) {
+    private static byte charToByte(char c) {
         return (byte) "0123456789ABCDEF".indexOf(c);
     }
 }
