@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.zm.utilslib.data.DataConversionUtil;
+import com.zm.utilslib.utils.DateUtils;
+import com.zm.utilslib.utils.DeviceUtils;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,9 +18,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        byte[] bytes = DataConversionUtil.hexStringToBytes("2B44EFD9");
-        String s = DataConversionUtil.bytesToHexString(bytes);
-        tv.setText(s);
+        String currentTimeMillis = DateUtils.getCurrentTimeMillis(DateUtils.FORMAT_FULL);
+        tv.append(currentTimeMillis);
+        Calendar c= Calendar.getInstance();
+        int i = c.get(Calendar.YEAR);
+        int i1 = c.get(Calendar.MONTH) + 1;
+        tv.append(i+"\n");
     }
 
     private void initView() {
