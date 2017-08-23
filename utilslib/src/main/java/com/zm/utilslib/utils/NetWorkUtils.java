@@ -1,3 +1,15 @@
+/*
+NETWORK_TYPE_CDMA 网络类型为CDMA
+NETWORK_TYPE_EDGE 网络类型为EDGE
+NETWORK_TYPE_EVDO_0 网络类型为EVDO0
+NETWORK_TYPE_EVDO_A 网络类型为EVDOA
+NETWORK_TYPE_GPRS 网络类型为GPRS
+NETWORK_TYPE_HSDPA 网络类型为HSDPA
+NETWORK_TYPE_HSPA 网络类型为HSPA
+NETWORK_TYPE_HSUPA 网络类型为HSUPA
+NETWORK_TYPE_UMTS 网络类型为UMTS
+联通的3G为UMTS或HSDPA，移动和联通的2G为GPRS或EDGE，电信的2G为CDMA，电信的3G为EVDO
+ */
 package com.zm.utilslib.utils;
 
 import android.annotation.SuppressLint;
@@ -6,28 +18,97 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.telephony.TelephonyManager;
 
 import static android.content.Context.WIFI_SERVICE;
 
 /**
  * 网络连接相关
+ * <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
  * Created by 张明_ on 2017/8/22.
  * Email 741183142@qq.com
  */
 
 public class NetWorkUtils {
 
+    /**
+     * 拿到ConnectivityManager
+     * 负责监听网络连接的状态，并发送状态变化的广播
+     * @param context 上下文
+     * @return ConnectivityManager
+     */
+    public static ConnectivityManager getConnectivityManager(Context context) {
+        return (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+    }
 
     /**
-     * 判断移动网络是否可用
+     * 拿到WifiManager
+     * @param context 上下文
+     * @return WifiManager
+     */
+    public static WifiManager getWifiManager(Context context) {
+        return (WifiManager) context.getApplicationContext()
+                .getSystemService(WIFI_SERVICE);
+    }
+
+    /**
+     * 获得TelephonyManager
+     * 用于管理手机通话状态，获取电话信息(设备信息、sim卡信息以及网络信息)，
+     * 侦听电话状态(呼叫状态服务状态、信号强度状态等)以及可以调用电话拨号器拨打电话！
+     */
+    public static TelephonyManager getTelephonyManager(Context context) {
+        return (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+    }
+
+
+    /**
+     * 判断网络是否连接
+     *
+     * @param context 上下文
+     * @return boolean
+     */
+    public static boolean isNetworkConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = getConnectivityManager(context);
+            if (mConnectivityManager==null){
+                return false;
+            }
+            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 判断网络是否能请求成功
+     * @param context Context
+     * @return boolean
+     */
+    public static boolean isNetWorkAvailable(final Context context) {
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            Process pingProcess = runtime.exec("/system/bin/ping -c 1 www.baidu.com");
+            int exitCode = pingProcess.waitFor();
+            return (exitCode == 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    /**
+     * 判断移动网络是否连接
      *
      * @param context 上下文
      * @return boolean
      */
     public static boolean isMobileConnected(Context context) {
         if (context != null) {
-            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager mConnectivityManager = getConnectivityManager(context);
             if (mConnectivityManager==null){
                 return false;
             }
@@ -46,9 +127,10 @@ public class NetWorkUtils {
      * @return  boolean
      */
     public static boolean isWifiConnected(Context context) {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) context.getSystemService(
-                Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = getConnectivityManager(context);
+        if (connectivityManager==null){
+            return false;
+        }
         NetworkInfo wifiNetworkInfo = connectivityManager.getNetworkInfo(
                 ConnectivityManager.TYPE_WIFI);
         if (wifiNetworkInfo.isConnected()) {
@@ -62,9 +144,8 @@ public class NetWorkUtils {
      * @param context 上下文
      */
     @SuppressLint("DefaultLocale")
-    private String getLocalIpAddress(Context context) {
-        WifiManager wifiManager = (WifiManager) context.getApplicationContext()
-                .getSystemService(WIFI_SERVICE);
+    public static String getLocalIpAddress(Context context) {
+        WifiManager wifiManager = getWifiManager(context);
         if (wifiManager==null){
             return "";
         }
@@ -76,5 +157,90 @@ public class NetWorkUtils {
         return String.format("%d.%d.%d.%d",
                 (ipAddress & 0xff), (ipAddress >> 8 & 0xff),
                 (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
+    }
+
+    /**
+     * 拿到连接类型
+     * @param context 上下文
+     * @return int
+     */
+    public static int getConnectedTypeINT(Context context) {
+        NetworkInfo net = getConnectivityManager(context).getActiveNetworkInfo();
+        if (net != null) {
+            return net.getType();
+        }
+        return -1;
+    }
+
+    public enum NetWorkType {
+        UnKnown(-1),
+        Wifi(1),
+        Net2G(2),
+        Net3G(3),
+        Net4G(4);
+
+        NetWorkType(int value) {
+            this.value = value;
+        }
+
+        public int value;
+    }
+
+
+    /**
+     * GPRS    2G(2.5) General Packet Radia Service 114kbps
+     * EDGE    2G(2.75G) Enhanced Data Rate for GSM Evolution 384kbps
+     * UMTS    3G WCDMA 联通3G Universal Mobile Telecommunication System 完整的3G移动通信技术标准
+     * CDMA    2G 电信 Code Division Multiple Access 码分多址
+     * EVDO_0  3G (EVDO 全程 CDMA2000 1xEV-DO) Evolution - Data Only (Data Optimized) 153.6kps - 2.4mbps 属于3G
+     * EVDO_A  3G 1.8mbps - 3.1mbps 属于3G过渡，3.5G
+     * 1xRTT   2G CDMA2000 1xRTT (RTT - 无线电传输技术) 144kbps 2G的过渡,
+     * HSDPA   3.5G 高速下行分组接入 3.5G WCDMA High Speed Downlink Packet Access 14.4mbps
+     * HSUPA   3.5G High Speed Uplink Packet Access 高速上行链路分组接入 1.4 - 5.8 mbps
+     * HSPA    3G (分HSDPA,HSUPA) High Speed Packet Access
+     * IDEN    2G Integrated Dispatch Enhanced Networks 集成数字增强型网络 （属于2G，来自维基百科）
+     * EVDO_B  3G EV-DO Rev.B 14.7Mbps 下行 3.5G
+     * LTE     4G Long Term Evolution FDD-LTE 和 TDD-LTE , 3G过渡，升级版 LTE Advanced 才是4G
+     * EHRPD   3G CDMA2000向LTE 4G的中间产物 Evolved High Rate Packet Data HRPD的升级
+     * HSPAP   3G HSPAP 比 HSDPA 快些
+     *
+     * @return {@link  NetWorkType}
+     */
+    public static NetWorkType getNetworkType(Context context) {
+        int type = getConnectedTypeINT(context);
+        switch (type) {
+            case ConnectivityManager.TYPE_WIFI:
+                return NetWorkType.Wifi;
+            case ConnectivityManager.TYPE_MOBILE:
+            case ConnectivityManager.TYPE_MOBILE_DUN:
+            case ConnectivityManager.TYPE_MOBILE_HIPRI:
+            case ConnectivityManager.TYPE_MOBILE_MMS:
+            case ConnectivityManager.TYPE_MOBILE_SUPL:
+                int teleType = getTelephonyManager(context).getNetworkType();
+                switch (teleType) {
+                    case TelephonyManager.NETWORK_TYPE_GPRS:
+                    case TelephonyManager.NETWORK_TYPE_EDGE:
+                    case TelephonyManager.NETWORK_TYPE_CDMA:
+                    case TelephonyManager.NETWORK_TYPE_1xRTT:
+                    case TelephonyManager.NETWORK_TYPE_IDEN:
+                        return NetWorkType.Net2G;
+                    case TelephonyManager.NETWORK_TYPE_UMTS:
+                    case TelephonyManager.NETWORK_TYPE_EVDO_0:
+                    case TelephonyManager.NETWORK_TYPE_EVDO_A:
+                    case TelephonyManager.NETWORK_TYPE_HSDPA:
+                    case TelephonyManager.NETWORK_TYPE_HSUPA:
+                    case TelephonyManager.NETWORK_TYPE_HSPA:
+                    case TelephonyManager.NETWORK_TYPE_EVDO_B:
+                    case TelephonyManager.NETWORK_TYPE_EHRPD:
+                    case TelephonyManager.NETWORK_TYPE_HSPAP:
+                        return NetWorkType.Net3G;
+                    case TelephonyManager.NETWORK_TYPE_LTE:
+                        return NetWorkType.Net4G;
+                    default:
+                        return NetWorkType.UnKnown;
+                }
+            default:
+                return NetWorkType.UnKnown;
+        }
     }
 }

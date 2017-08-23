@@ -1,15 +1,17 @@
 package com.zm.zmandroidlog;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.zm.utilslib.base.BaseActivity;
+import com.zm.utilslib.test.GreenDaoTestBean;
 import com.zm.utilslib.utils.DateUtils;
-import com.zm.utilslib.utils.DeviceUtils;
 
 import java.util.Calendar;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private TextView tv;
 
@@ -24,6 +26,11 @@ public class MainActivity extends AppCompatActivity {
         int i = c.get(Calendar.YEAR);
         int i1 = c.get(Calendar.MONTH) + 1;
         tv.append(i+"\n");
+        List<GreenDaoTestBean> greenDaoTestBeans =
+                MyApp.getDaoInstant().getGreenDaoTestBeanDao().loadAll();
+        if (greenDaoTestBeans.size()==0){
+            Toast.makeText(this, "22", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initView() {

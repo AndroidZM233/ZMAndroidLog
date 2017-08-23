@@ -17,8 +17,9 @@ import android.content.Context;
 import android.content.Intent;
 
 /**
- * Created by 张明_ on 2017/8/14.
  * 监听充电断点状态、断点后关机
+ * Created by 张明_ on 2017/8/14.
+ * Email 741183142@qq.com
  */
 
 public class PowerStateChangeReceiver extends BroadcastReceiver {

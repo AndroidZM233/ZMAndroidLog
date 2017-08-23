@@ -1,8 +1,8 @@
 # ZMAndroidLog #
 ## broadcast
-* BootBroadcastReceiver开机自启
-* PowerStateChangeReceiver监听充电断点状态、断电后关机
-
+* BootBroadcastReceiver ---开机自启
+* PowerStateChangeReceiver ---监听充电断点状态、断电后关机
+* NetworkChangeReceiver ---网络连接状态变化广播接收器
 # UtilsLib
 ## utils
 * data-ByteUtils ---byte数据转换

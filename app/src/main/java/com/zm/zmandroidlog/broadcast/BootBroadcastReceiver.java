@@ -25,7 +25,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-//开机自启
+/**
+ * 开机自启
+ * Created by 张明_ on 2017/8/23.
+ * Email 741183142@qq.com
+ */
 public class BootBroadcastReceiver extends BroadcastReceiver {
     static final String action_boot = "android.intent.action.BOOT_COMPLETED";
 
