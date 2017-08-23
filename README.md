@@ -1,4 +1,4 @@
-![How to](https://github.com/AndroidZM233/ZMAndroidLog/tree/master/资源文件/HowTo.png)
+![image](https://github.com/AndroidZM233/ZMAndroidLog/tree/master/Pic/HowTo.png)
 
 # ZMAndroidLog #
 ## broadcast
