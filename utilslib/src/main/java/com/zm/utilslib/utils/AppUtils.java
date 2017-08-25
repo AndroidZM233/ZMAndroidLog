@@ -133,6 +133,43 @@ public final class AppUtils {
         return ret;
     }
 
+    /**
+     * 是否是主进程
+     */
+    public static boolean isMainProcess(Context context) {
+        String procName = getCurrentProcessName(context);
+        return procName == null || procName.equalsIgnoreCase(context.getPackageName());
+    }
+
+    /**
+     * 获取当前进程名字
+     */
+    public static String getCurrentProcessName(Context context) {
+        int pid = android.os.Process.myPid();
+        ActivityManager mActivityManager = (ActivityManager) context
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        if (mActivityManager==null){
+            return null;
+        }
+        for (ActivityManager.RunningAppProcessInfo appProcess : mActivityManager.getRunningAppProcesses()) {
+            if (appProcess.pid == pid) {
+                return appProcess.processName;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 调用系统分享
+     */
+    public static void shareToOtherApp(Context context, String title, String content, String dialogTitle) {
+        Intent intentItem = new Intent(Intent.ACTION_SEND);
+        intentItem.setType("text/plain");
+        intentItem.putExtra(Intent.EXTRA_SUBJECT, title);
+        intentItem.putExtra(Intent.EXTRA_TEXT, content);
+        intentItem.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(Intent.createChooser(intentItem, dialogTitle));
+    }
 
     /**
      * 得到CPU核心数
