@@ -90,24 +90,30 @@ public class LogToFileUtils {
      *
      * @param str 需要写入的数据
      */
-    public static void write(Object str) {
+    public static void write(final Object str) {
         if (isDebug) {
             // 判断是否初始化或者初始化是否成功
             if (null == mContext || null == instance || null == logFile || !logFile.exists()) {
                 Log.e(MY_TAG, "Initialization failure !!!");
                 return;
             }
-            String logStr = getFunctionInfo() + " - " + str.toString();
-            Log.i(tag, logStr);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String logStr = getFunctionInfo() + " - " + str.toString();
+                    Log.i(tag, logStr);
 
-            try {
-                BufferedWriter bw = new BufferedWriter(new FileWriter(logFile, true));
-                bw.write(logStr);
-                bw.write("\r\n");
-                bw.flush();
-            } catch (Exception e) {
-                Log.e(tag, "Write failure !!! " + e.toString());
-            }
+                    try {
+                        BufferedWriter bw = new BufferedWriter(new FileWriter(logFile, true));
+                        bw.write(logStr);
+                        bw.write("\r\n");
+                        bw.flush();
+                    } catch (Exception e) {
+                        Log.e(tag, "Write failure !!! " + e.toString());
+                    }
+                }
+            }).start();
+
         }
     }
 
