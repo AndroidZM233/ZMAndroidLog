@@ -33,7 +33,7 @@ public class LogToFileUtils {
     /**
      * 日志中的时间显示格式
      */
-    private static SimpleDateFormat logSDF       = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat logSDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     /**
      * 日志的最大占用空间 - 单位：字节
      * <p>
@@ -45,7 +45,7 @@ public class LogToFileUtils {
      * <p>
      * 默认10M
      */
-    private static final int              LOG_MAX_SIZE = 10 * 1024 * 1024;
+    public static final int LOG_MAX_SIZE = 10 * 1024 * 1024;
     /**
      * 以调用者的类名作为TAG
      */
@@ -54,27 +54,34 @@ public class LogToFileUtils {
     private static final String MY_TAG = "LogToFileUtils";
 
     /**
+     * 开关是否保存到SD卡
+     */
+    public static boolean isDebug = false;
+
+    /**
      * 初始化日志库
      *
      * @param context
      */
     public static void init(Context context) {
-        Log.i(MY_TAG, "init ...");
-        if (null == mContext || null == instance || null == logFile || !logFile.exists()) {
-            mContext = context;
-            instance = new LogToFileUtils();
-            logFile = getLogFile();
-            Log.i(MY_TAG, "LogFilePath is: " + logFile.getPath());
-            // 获取当前日志文件大小
-            long logFileSize = getFileSize(logFile);
-            Log.d(MY_TAG, "Log max size is: " + Formatter.formatFileSize(context, LOG_MAX_SIZE));
-            Log.i(MY_TAG, "log now size is: " + Formatter.formatFileSize(context, logFileSize));
-            // 若日志文件超出了预设大小，则重置日志文件
-            if (LOG_MAX_SIZE < logFileSize) {
-                resetLogFile();
+        if (isDebug) {
+            Log.i(MY_TAG, "init ...");
+            if (null == mContext || null == instance || null == logFile || !logFile.exists()) {
+                mContext = context;
+                instance = new LogToFileUtils();
+                logFile = getLogFile();
+                Log.i(MY_TAG, "LogFilePath is: " + logFile.getPath());
+                // 获取当前日志文件大小
+                long logFileSize = getFileSize(logFile);
+                Log.d(MY_TAG, "Log max size is: " + Formatter.formatFileSize(context, LOG_MAX_SIZE));
+                Log.i(MY_TAG, "log now size is: " + Formatter.formatFileSize(context, logFileSize));
+                // 若日志文件超出了预设大小，则重置日志文件
+                if (LOG_MAX_SIZE < logFileSize) {
+                    resetLogFile();
+                }
+            } else {
+                Log.i(MY_TAG, "LogToFileUtils has been init ...");
             }
-        } else {
-            Log.i(MY_TAG, "LogToFileUtils has been init ...");
         }
     }
 
@@ -84,21 +91,23 @@ public class LogToFileUtils {
      * @param str 需要写入的数据
      */
     public static void write(Object str) {
-        // 判断是否初始化或者初始化是否成功
-        if (null == mContext || null == instance || null == logFile || !logFile.exists()) {
-            Log.e(MY_TAG, "Initialization failure !!!");
-            return;
-        }
-        String logStr = getFunctionInfo() + " - " + str.toString();
-        Log.i(tag, logStr);
+        if (isDebug) {
+            // 判断是否初始化或者初始化是否成功
+            if (null == mContext || null == instance || null == logFile || !logFile.exists()) {
+                Log.e(MY_TAG, "Initialization failure !!!");
+                return;
+            }
+            String logStr = getFunctionInfo() + " - " + str.toString();
+            Log.i(tag, logStr);
 
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(logFile, true));
-            bw.write(logStr);
-            bw.write("\r\n");
-            bw.flush();
-        } catch (Exception e) {
-            Log.e(tag, "Write failure !!! " + e.toString());
+            try {
+                BufferedWriter bw = new BufferedWriter(new FileWriter(logFile, true));
+                bw.write(logStr);
+                bw.write("\r\n");
+                bw.flush();
+            } catch (Exception e) {
+                Log.e(tag, "Write failure !!! " + e.toString());
+            }
         }
     }
 
@@ -111,20 +120,23 @@ public class LogToFileUtils {
      * <p/>
      */
     private static void resetLogFile() {
-        Log.i(MY_TAG, "Reset Log File ... ");
-        // 创建lastLog.txt，若存在则删除
-        File lastLogFile = new File(logFile.getParent() + "/lastLog.txt");
-        if (lastLogFile.exists()) {
-            lastLogFile.delete();
+        if (isDebug) {
+            Log.i(MY_TAG, "Reset Log File ... ");
+            // 创建lastLog.txt，若存在则删除
+            File lastLogFile = new File(logFile.getParent() + "/lastLog.txt");
+            if (lastLogFile.exists()) {
+                lastLogFile.delete();
+            }
+            // 将日志文件重命名为 lastLog.txt
+            logFile.renameTo(lastLogFile);
+            // 新建日志文件
+            try {
+                logFile.createNewFile();
+            } catch (Exception e) {
+                Log.e(MY_TAG, "Create log file failure !!! " + e.toString());
+            }
         }
-        // 将日志文件重命名为 lastLog.txt
-        logFile.renameTo(lastLogFile);
-        // 新建日志文件
-        try {
-            logFile.createNewFile();
-        } catch (Exception e) {
-            Log.e(MY_TAG, "Create log file failure !!! " + e.toString());
-        }
+
     }
 
     /**
