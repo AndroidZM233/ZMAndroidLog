@@ -1,5 +1,6 @@
 package com.zm.utilslib.utils.data;
 
+
 /**
  * byte数据转换
  * Created by 张明_ on 2017/8/21.
@@ -48,4 +49,19 @@ public class ByteUtils {
         nRcvString = tStringBuf.toString();
         return nRcvString;
     }
+
+    /**
+     * 从bytes上截取一段
+     * @param bytes 母体
+     * @param off 起始
+     * @param length 个数
+     * @return byte[]
+     */
+    public static byte[] arrayCopy(byte[] bytes, int off, int length){
+        byte[] bytess = new byte[length];
+        System.arraycopy(bytes, off, bytess, 0, length);
+        return bytess;
+    }
+
+
 }
