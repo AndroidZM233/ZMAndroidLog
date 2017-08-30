@@ -1,7 +1,12 @@
 package com.zm.utilslib.base;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
+import android.widget.Toast;
+
+import com.zm.utilslib.utils.Utils;
+
 import java.util.ArrayList;
 
 /**
@@ -11,23 +16,28 @@ import java.util.ArrayList;
 
 public class BaseApplication extends Application {
     private ArrayList<Activity> activityList = new ArrayList<>();
-    private static BaseToast toast;
+    private Toast mToast;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        Utils.init(this);
     }
 
-
     /**
-     * Toast单例
-     * @return Toast
+     * 显示Toast
+     *
+     * @param msg String
      */
-    public static BaseToast getToast() {
-        if (toast == null) {
-            toast = new BaseToast();
+    @SuppressLint("ShowToast")
+    public void showToast(String msg) {
+        if (mToast == null) {
+            mToast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);// getApplicationContext()
+        } else {
+            mToast.setText(msg);
+            mToast.setDuration(Toast.LENGTH_SHORT);
         }
-        return toast;
+        mToast.show();
     }
 
     /**

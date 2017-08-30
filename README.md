@@ -8,14 +8,40 @@
 # UtilsLib
 ## How to use UtilsLib
 ![image](https://github.com/AndroidZM233/ZMAndroidLog/blob/master/Pic/HowTo.png)
+```
+// init it in the function of onCreate in ur Application
+Utils.init(context);
+// or Your Application extends BaseApplication
+MyApp extends BaseApplication
+```
 ## utils
 * data-ByteUtils ---byte数据转换
 * data-StringUtils ---String数据判断、转换
 * AppUtils ---APP相关信息工具类
 * ArrayUtils ---数组工具类
+* CacheUtils ---缓存相关工具类
+* CleanUtils ---清除相关工具类
+* CloseUtils ---关闭相关工具类
+* ConvertUtils ---转换相关工具类
 * DateUtils ---日期操作
 * DeviceUtils ---设备信息获取
+* EncodeUtils ---编码解码相关工具类
+* EncryptUtils ---加密解密相关的工具类
 * FileUtils ---文件操作工具类
+* FragmentUtils ---Fragment相关工具类
+* ImageUtils ---图片相关工具类
+* IntentUtils ---意图相关工具类
+* LogBlankjUtils ---Blankj大神log工具类
 * LogToFileUtils ---log保存到SD卡(Android\data\包名\files\Log\logs.txt)
 * LogUtils ---log工具类
 * NetWorkUtils ---网络连接相关
+* RegexUtils ---正则相关工具类验证字符串规则
+* ScreenUtils ---屏幕相关工具类
+* ServiceUtils ---服务相关工具类
+* SnackbarUtils ---Snackbar相关工具类
+* Utils ---Utils初始化相关
+* ZipUtils ---压缩相关工具类
+## base
+* BaseActivity
+* BaseApplication
+* BaseFragment

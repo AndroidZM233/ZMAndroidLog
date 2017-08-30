@@ -29,4 +29,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
     compile 'org.greenrobot:eventbus:3.0.0'
+    //Snackbar
+    compile 'com.android.support:design:26.0.0'
 }

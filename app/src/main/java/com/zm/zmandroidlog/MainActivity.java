@@ -1,33 +1,43 @@
 package com.zm.zmandroidlog;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zm.utilslib.base.BaseActivity;
-import com.zm.utilslib.utils.DateUtils;
-
-import java.util.Calendar;
-import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
     private TextView tv;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initView();
-        String currentTimeMillis = DateUtils.getCurrentTimeMillis(DateUtils.FORMAT_FULL);
-        tv.append(currentTimeMillis);
-        Calendar c= Calendar.getInstance();
-        int i = c.get(Calendar.YEAR);
-        int i1 = c.get(Calendar.MONTH) + 1;
-        tv.append(i+"\n");
+    public void initData(Bundle bundle) {
+
     }
 
-    private void initView() {
-        tv = (TextView) findViewById(R.id.tv);
+    @Override
+    public int bindLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void initView(Bundle savedInstanceState, View view) {
+        tv = findViewById(R.id.tv);
+        tv.setOnClickListener(this);
+    }
+
+    @Override
+    public void doBusiness() {
+        tv.setText("33333333333");
+    }
+
+    @Override
+    public void onWidgetClick(View view) {
+        switch (view.getId()){
+            case R.id.tv:
+                Toast.makeText(mActivity, "sss", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 }
