@@ -23,7 +23,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState, View view) {
-        tv = findViewById(R.id.tv);
+        tv = (TextView) findViewById(R.id.tv);
         tv.setOnClickListener(this);
     }
 
