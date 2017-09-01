@@ -26,10 +26,10 @@ task clean(type: Delete) {
 }
 
 project.ext {
-    compileSdkVersion = 26
-    buildToolsVersion = "26.0.0"
+    compileSdkVersion = 25
+    buildToolsVersion = "25.0.1"
     minSdkVersion = 15
-    targetSdkVersion = 26
-    supportVersion = "26.0.0"
+    targetSdkVersion = 25
+    supportVersion = "25.1.1"
     junitVersion = "4.12"
 }
