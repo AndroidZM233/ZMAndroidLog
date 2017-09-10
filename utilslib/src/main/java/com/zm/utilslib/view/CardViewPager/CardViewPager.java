@@ -1,17 +1,17 @@
-package com.zm.utilslib.view.cardslideview;
+package com.zm.utilslib.view.CardViewPager;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 import com.zm.utilslib.R;
+import com.zm.utilslib.view.LinkedViewPager.PagerAdapter;
+import com.zm.utilslib.view.LinkedViewPager.ViewPager;
 
 import java.io.Serializable;
 import java.lang.annotation.Retention;
@@ -30,7 +30,6 @@ public class CardViewPager extends ViewPager {
 
     public static final int MODE_CARD = 0;
     public static final int MODE_NORMAL = 1;
-    private ViewPager mViewPager;
 
     @IntDef({MODE_CARD, MODE_NORMAL})
     @Retention(RetentionPolicy.SOURCE)
@@ -97,6 +96,7 @@ public class CardViewPager extends ViewPager {
         mTransformer = new CardTransformer(cardMaxOffset, scaleRate);
         setPageTransformer(false, mTransformer);
     }
+
 
     /**
      * 设置卡片左右padding
@@ -176,7 +176,6 @@ public class CardViewPager extends ViewPager {
         return cardItems;
     }
 
-    @Override
     public void setAdapter(PagerAdapter adapter) {
         if (!(adapter instanceof CardPagerAdapter)) {
             throw new RuntimeException("please set CardPagerAdapter!");
@@ -184,26 +183,4 @@ public class CardViewPager extends ViewPager {
         super.setAdapter(adapter);
     }
 
-    /**
-     * 关联ViewPager，将ViewPager的滑动在自定义控件内部进行监听
-     */
-    public void setViewPager(ViewPager viewPager, final CardViewPager cardViewPager) {
-        mViewPager = viewPager;
-        mViewPager.addOnPageChangeListener(new OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                cardViewPager.setCurrentItem(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-    }
 }

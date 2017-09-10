@@ -1,4 +1,4 @@
-package com.zm.utilslib.view.cardslideview;
+package com.zm.utilslib.view.CardViewPager;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

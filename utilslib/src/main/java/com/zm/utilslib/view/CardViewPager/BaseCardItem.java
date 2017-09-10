@@ -1,4 +1,4 @@
-package com.zm.utilslib.view.cardslideview;
+package com.zm.utilslib.view.CardViewPager;
 
 import android.content.Context;
 import android.os.Bundle;

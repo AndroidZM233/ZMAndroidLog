@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
 
-    <com.zm.utilslib.view.cardslideview.ElasticCardView
+    <com.zm.utilslib.view.CardViewPager.ElasticCardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
 
-    </com.zm.utilslib.view.cardslideview.ElasticCardView>
+    </com.zm.utilslib.view.CardViewPager.ElasticCardView>
 
 
 </FrameLayout>

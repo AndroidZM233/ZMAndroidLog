@@ -1,7 +1,8 @@
-package com.zm.utilslib.view.cardslideview;
+package com.zm.utilslib.view.CardViewPager;
 
-import android.support.v4.view.ViewPager;
 import android.view.View;
+
+import com.zm.utilslib.view.LinkedViewPager.ViewPager;
 
 /**
  * description

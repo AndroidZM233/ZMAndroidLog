@@ -4,9 +4,9 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.zm.utilslib.view.cardslideview.CardHandler;
-import com.zm.utilslib.view.cardslideview.CardViewPager;
-import com.zm.utilslib.view.cardslideview.ElasticCardView;
+import com.zm.utilslib.view.CardViewPager.CardHandler;
+import com.zm.utilslib.view.CardViewPager.CardViewPager;
+import com.zm.utilslib.view.CardViewPager.ElasticCardView;
 import com.zm.zmandroidlog.R;
 
 /**

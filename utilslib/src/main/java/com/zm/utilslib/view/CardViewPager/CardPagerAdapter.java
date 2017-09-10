@@ -1,10 +1,10 @@
-package com.zm.utilslib.view.cardslideview;
+package com.zm.utilslib.view.CardViewPager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
+import com.zm.utilslib.view.LinkedViewPager.FragmentStatePagerAdapter;
 
 import java.util.List;
 

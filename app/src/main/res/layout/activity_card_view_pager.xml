@@ -10,20 +10,20 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="100dp">
-        <com.zm.utilslib.view.cardslideview.CardViewPager
+        <com.zm.utilslib.view.CardViewPager.CardViewPager
             android:id="@+id/vp_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:card_loop="false">
 
-        </com.zm.utilslib.view.cardslideview.CardViewPager>
+        </com.zm.utilslib.view.CardViewPager.CardViewPager>
     </FrameLayout>
 
-    <android.support.v4.view.ViewPager
+    <com.zm.utilslib.view.LinkedViewPager.ViewPager
         android:id="@+id/vp_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v4.view.ViewPager>
+    </com.zm.utilslib.view.LinkedViewPager.ViewPager>
 
 </LinearLayout>

@@ -4,14 +4,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zm.utilslib.base.BaseActivity;
-import com.zm.utilslib.view.cardslideview.CardViewPager;
+import com.zm.utilslib.view.CardViewPager.CardViewPager;
+import com.zm.utilslib.view.LinkedViewPager.FragmentStatePagerAdapter;
+import com.zm.utilslib.view.LinkedViewPager.ViewPager;
 import com.zm.zmandroidlog.R;
 import com.zm.zmandroidlog.customview.piechart.MonthBean;
 import com.zm.zmandroidlog.customview.piechart.PieChartFragment;
@@ -56,7 +56,7 @@ public class CardViewPagerActivity extends BaseActivity {
         switchCard();
 
         vpMain = (ViewPager) findViewById(R.id.vp_main);
-        vpMain.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+        vpMain.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 return PieChartFragment.newInstance(fromJson.get(position));
@@ -68,39 +68,25 @@ public class CardViewPagerActivity extends BaseActivity {
             }
         });
 
-        vpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//        vpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                handler.sendMessage(handler.obtainMessage(0,position));
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//
+//            }
+//        });
 
-            }
+        cardViewPager.setFlolwViewPager(vpMain);
 
-            @Override
-            public void onPageSelected(int position) {
-                handler.sendMessage(handler.obtainMessage(0,position));
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        cardViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                handler.sendMessage(handler.obtainMessage(1,position));
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
     Handler handler = new Handler() {
