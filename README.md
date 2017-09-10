@@ -4,7 +4,9 @@
 * BootBroadcastReceiver ---开机自启
 * NetworkChangeReceiver ---网络连接状态变化广播接收器
 * PowerStateChangeReceiver ---监听充电断点状态、断电后关机
-
+## customView
+* cardViewPager 滑动当前item变大其他变小
+* pieChart 饼状图
 # UtilsLib
 ## How to use UtilsLib
 ![image](https://github.com/AndroidZM233/ZMAndroidLog/blob/master/Pic/HowTo.png)

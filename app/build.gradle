@@ -27,4 +27,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
     implementation project(':utilslib')
+
+    //饼状图所需引用 maven { url "https://jitpack.io" }
+    implementation files('src/main/libs/gson-2.2.4.jar')
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile "com.android.support:percent:$rootProject.ext.supportVersion"
+    //百分比布局app:layout_widthPercent="80%"
 }

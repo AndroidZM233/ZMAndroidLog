@@ -17,6 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".customview.CustomViewActivity" />
+        <activity android:name=".customview.piechart.PieChartActivity" />
+        <activity android:name=".customview.cardviewpager.CardViewPagerActivity"></activity>
     </application>
 
 </manifest>

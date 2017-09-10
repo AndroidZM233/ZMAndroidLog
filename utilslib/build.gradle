@@ -26,6 +26,7 @@ dependencies {
     testCompile "junit:junit:$rootProject.ext.junitVersion"
     //Snackbar
     compile "com.android.support:design:$rootProject.ext.supportVersion"
-
     compile 'org.greenrobot:eventbus:3.0.0'
+    //CardsSlideView
+    compile "com.android.support:cardview-v7:$rootProject.ext.supportVersion"
 }
