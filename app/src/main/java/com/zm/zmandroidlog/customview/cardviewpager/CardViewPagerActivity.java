@@ -1,8 +1,6 @@
 package com.zm.zmandroidlog.customview.cardviewpager;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
@@ -68,41 +66,11 @@ public class CardViewPagerActivity extends BaseActivity {
             }
         });
 
-//        vpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                handler.sendMessage(handler.obtainMessage(0,position));
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
-
         cardViewPager.setFlolwViewPager(vpMain);
+        vpMain.setFlolwViewPager(cardViewPager);
 
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case 0:
-                    cardViewPager.setCurrentItem((Integer) msg.obj);
-                    break;
-                case 1:
-                    vpMain.setCurrentItem((Integer) msg.obj);
-                    break;
-            }
-        }
-    };
 
     private void switchCard() {
         cardViewPager.setCardTransformer(180, 0.38f);

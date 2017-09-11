@@ -19,7 +19,9 @@
         </activity>
         <activity android:name=".customview.CustomViewActivity" />
         <activity android:name=".customview.piechart.PieChartActivity" />
-        <activity android:name=".customview.cardviewpager.CardViewPagerActivity"></activity>
+        <activity android:name=".customview.cardviewpager.CardViewPagerActivity"/>
+        <activity android:name=".customview.CircleMenu.CircleActivity"/>
+        <activity android:name=".customview.CircleMenu.CircleShrinkActivity"/>
     </application>
 
 </manifest>

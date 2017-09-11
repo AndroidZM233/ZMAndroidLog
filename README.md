@@ -18,6 +18,7 @@ MyApp extends BaseApplication
 ```
 ## utils
 * data-ByteUtils ---byte数据转换
+* data-IntegerUtils ---int转换
 * data-StringUtils ---String数据判断、转换
 * AppUtils ---APP相关信息工具类
 * ArrayUtils ---数组工具类
@@ -47,3 +48,6 @@ MyApp extends BaseApplication
 * BaseActivity
 * BaseApplication
 * BaseFragment
+## view
+* CardViewPager 图片ViewPager
+* LinkedViewPager ViewPager联动

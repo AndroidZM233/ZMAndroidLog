@@ -19,4 +19,16 @@
         android:text="图片ViewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_circle"
+        android:text="圆形旋转菜单"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_circle_shrink"
+        android:text="圆形旋转缩放菜单"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

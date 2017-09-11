@@ -6,12 +6,17 @@ import android.widget.Button;
 
 import com.zm.utilslib.base.BaseActivity;
 import com.zm.zmandroidlog.R;
+import com.zm.zmandroidlog.customview.CircleMenu.CircleActivity;
+import com.zm.zmandroidlog.customview.CircleMenu.CircleShrinkActivity;
 import com.zm.zmandroidlog.customview.cardviewpager.CardViewPagerActivity;
 import com.zm.zmandroidlog.customview.piechart.PieChartActivity;
 
 public class CustomViewActivity extends BaseActivity implements View.OnClickListener {
     private Button btnPieChart;
     private Button btnCardVP;
+    private Button btnCircle;
+    private Button btnCircleShrink;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +35,14 @@ public class CustomViewActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void initView(Bundle savedInstanceState, View view) {
-        btnPieChart= (Button) findViewById(R.id.btn_pie_chart);
+        btnPieChart = (Button) findViewById(R.id.btn_pie_chart);
         btnPieChart.setOnClickListener(this);
-        btnCardVP= (Button) findViewById(R.id.btn_card_vp);
+        btnCardVP = (Button) findViewById(R.id.btn_card_vp);
         btnCardVP.setOnClickListener(this);
+        btnCircle = (Button) findViewById(R.id.btn_circle);
+        btnCircle.setOnClickListener(this);
+        btnCircleShrink = (Button) findViewById(R.id.btn_circle_shrink);
+        btnCircleShrink.setOnClickListener(this);
     }
 
     @Override
@@ -43,12 +52,18 @@ public class CustomViewActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onWidgetClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_pie_chart:
                 openAct(this, PieChartActivity.class);
                 break;
             case R.id.btn_card_vp:
                 openAct(this, CardViewPagerActivity.class);
+                break;
+            case R.id.btn_circle:
+                openAct(this, CircleActivity.class);
+                break;
+            case R.id.btn_circle_shrink:
+                openAct(this, CircleShrinkActivity.class);
                 break;
         }
     }
