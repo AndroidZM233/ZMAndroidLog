@@ -10,9 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="8dp"
-        app:cardMaxElevation="8dp"
+        app:cardBackgroundColor="#00000000"
+        app:cardElevation="0px"
+        app:cardMaxElevation="0dp"
+        app:cardUseCompatPadding="false"
         app:ratio="1">
 
         <ImageView

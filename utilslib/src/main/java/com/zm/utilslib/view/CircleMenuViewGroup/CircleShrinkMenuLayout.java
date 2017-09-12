@@ -2,6 +2,7 @@ package com.zm.utilslib.view.CircleMenuViewGroup;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -27,7 +28,7 @@ public class CircleShrinkMenuLayout extends ViewGroup {
     /**
      * 该容器内child item的默认尺寸
      */
-    private static final float RADIO_DEFAULT_CHILD_DIMENSION = 1 / 3f;
+    private float RADIO_DEFAULT_CHILD_DIMENSION;
     /**
      * 菜单的中心child的默认尺寸
      */
@@ -94,7 +95,7 @@ public class CircleShrinkMenuLayout extends ViewGroup {
     /**
      * 变大的item
      */
-    private int bigItem=-1;
+    private int bigItem = -1;
     private Paint mPaint;
     private float tmp;
 
@@ -110,6 +111,10 @@ public class CircleShrinkMenuLayout extends ViewGroup {
         // 无视padding
         setPadding(0, 0, 0, 0);
 //        setWillNotDraw(false);//是否调用draw
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CircleShrinkMenuLayout);
+        RADIO_DEFAULT_CHILD_DIMENSION = typedArray.getFloat(R.styleable.CircleShrinkMenuLayout_child_item_size
+                , 1 / 3f);
+        typedArray.recycle();
     }
 
     @Override

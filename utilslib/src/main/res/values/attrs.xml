@@ -6,6 +6,7 @@
     <attr name="card_loop" format="boolean" />
     <attr name="card_max_offset" format="dimension" />
     <attr name="card_scale_rate" format="float" />
+    <attr name="child_item_size" format="float" />
 
     <declare-styleable name="ElasticCardView">
         <attr name="ratio" />
@@ -17,5 +18,9 @@
         <attr name="card_scale_rate" />
         <attr name="card_max_offset" />
         <attr name="card_loop" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleShrinkMenuLayout">
+        <attr name="child_item_size"/>
     </declare-styleable>
 </resources>
