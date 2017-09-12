@@ -1,6 +1,8 @@
 package com.zm.utilslib.view.CircleMenuViewGroup;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -89,12 +91,25 @@ public class CircleShrinkMenuLayout extends ViewGroup {
      * 第一次进OnLayout
      */
     private boolean isFirstOnLayout = true;
+    /**
+     * 变大的item
+     */
+    private int bigItem=-1;
+    private Paint mPaint;
+    private float tmp;
+
+    /**
+     * view宽高
+     */
+    private int resWidth = 0;
+    private int resHeight = 0;
 
 
     public CircleShrinkMenuLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         // 无视padding
         setPadding(0, 0, 0, 0);
+//        setWillNotDraw(false);//是否调用draw
     }
 
     @Override
@@ -125,7 +140,7 @@ public class CircleShrinkMenuLayout extends ViewGroup {
             mStartAngle %= 360;
 
             // 计算，中心点到menu item中心的距离
-            float tmp = layoutRadius / 2f - cWidth / 2 - mPadding;
+            tmp = layoutRadius / 2f - cWidth / 2 - mPadding;
 
             // tmp cosa 即menu item中心点的横坐标
             left = layoutRadius
@@ -147,10 +162,26 @@ public class CircleShrinkMenuLayout extends ViewGroup {
                 flagTop = top;
             }
             child.layout(left, top, left + cWidth, top + cWidth);
+
             if (left == flagLeft && top == flagTop && isTouchUp) {
+                if (bigItem != -1) {
+                    ObjectAnimator animator = ObjectAnimator.ofFloat(getChildAt(bigItem),
+                            "scaleY", 2, 1);
+                    ObjectAnimator.ofFloat(getChildAt(bigItem),
+                            "scaleX", 2, 1);
+                    animator.setDuration(0);
+                    animator.start();
+                }
                 if (mOnItemInLeftListener != null) {
                     mOnItemInLeftListener.inLeft(child, i - 1);
                 }
+                bigItem = i;
+                ObjectAnimator animator = ObjectAnimator.ofFloat(child,
+                        "scaleY", 1, 2);
+                ObjectAnimator.ofFloat(child,
+                        "scaleX", 1, 2);
+                animator.setDuration(0);
+                animator.start();
             }
 
             // 叠加尺寸
@@ -176,13 +207,23 @@ public class CircleShrinkMenuLayout extends ViewGroup {
         }
     }
 
+
+//    @Override
+//    public void draw(Canvas canvas) {
+//        super.draw(canvas);
+//        mPaint = new Paint();
+//        mPaint.setColor(Color.BLACK);
+//        mPaint.setStyle(Paint.Style.STROKE);//空心效果
+//        mPaint.setStrokeWidth(10);//线宽
+//        canvas.drawCircle(resWidth / 2, resHeight / 2, tmp, mPaint);//画圆
+//        canvas.save();
+//    }
+
     /**
      * 设置布局的宽高，并策略menu item宽高
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int resWidth = 0;
-        int resHeight = 0;
 
         /**
          * 根据传入的参数，分别获取测量模式和测量值
@@ -248,7 +289,7 @@ public class CircleShrinkMenuLayout extends ViewGroup {
         }
 
 //        mPadding = RADIO_PADDING_LAYOUT * mRadius;
-        mPadding=0;
+        mPadding = 0;
     }
 
 
