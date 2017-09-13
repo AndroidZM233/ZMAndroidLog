@@ -4,15 +4,20 @@ import java.io.Serializable;
 
 
 public class ImageBean implements Serializable {
-    private long id;
+    private int id;
     private int img;
 
-    public ImageBean(int img) {
+    public ImageBean(int img, int id) {
         this.img = img;
+        this.id = id;
     }
 
     public int getImg() {
         return img;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override

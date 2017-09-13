@@ -8,6 +8,7 @@ import com.zm.utilslib.base.BaseActivity;
 import com.zm.zmandroidlog.R;
 import com.zm.zmandroidlog.customview.CircleMenu.CircleActivity;
 import com.zm.zmandroidlog.customview.CircleMenu.CircleShrinkActivity;
+import com.zm.zmandroidlog.customview.RadarView.RadarViewActivity;
 import com.zm.zmandroidlog.customview.cardviewpager.CardViewPagerActivity;
 import com.zm.zmandroidlog.customview.piechart.PieChartActivity;
 
@@ -16,6 +17,7 @@ public class CustomViewActivity extends BaseActivity implements View.OnClickList
     private Button btnCardVP;
     private Button btnCircle;
     private Button btnCircleShrink;
+    private Button btnRadio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,8 @@ public class CustomViewActivity extends BaseActivity implements View.OnClickList
         btnCircle.setOnClickListener(this);
         btnCircleShrink = (Button) findViewById(R.id.btn_circle_shrink);
         btnCircleShrink.setOnClickListener(this);
+        btnRadio= (Button) findViewById(R.id.btn_radio);
+        btnRadio.setOnClickListener(this);
     }
 
     @Override
@@ -64,6 +68,9 @@ public class CustomViewActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.btn_circle_shrink:
                 openAct(this, CircleShrinkActivity.class);
+                break;
+            case R.id.btn_radio:
+                openAct(this, RadarViewActivity.class);
                 break;
         }
     }

@@ -17,9 +17,10 @@ import com.zm.zmandroidlog.R;
 public class MyCardHandler implements CardHandler<ImageBean> {
     @Override
     public View onBind(Context context, ImageBean data, int position, int mode) {
-        View view=View.inflate(context, R.layout.cardhandler_item,null);
-        ImageView imageView= (ImageView) view.findViewById(R.id.image);
-        ElasticCardView elasticCardView= (ElasticCardView) view.findViewById(R.id.cardview);
+        View view = View.inflate(context, R.layout.cardhandler_item, null);
+
+        ImageView imageView = (ImageView) view.findViewById(R.id.image);
+        ElasticCardView elasticCardView = (ElasticCardView) view.findViewById(R.id.cardview);
         final boolean isCard = mode == CardViewPager.MODE_CARD;
         elasticCardView.setPreventCornerOverlap(isCard);
         elasticCardView.setUseCompatPadding(isCard);

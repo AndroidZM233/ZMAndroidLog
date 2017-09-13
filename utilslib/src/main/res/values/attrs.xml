@@ -7,6 +7,7 @@
     <attr name="card_max_offset" format="dimension" />
     <attr name="card_scale_rate" format="float" />
     <attr name="child_item_size" format="float" />
+    <attr name="view_size" format="integer" />
 
     <declare-styleable name="ElasticCardView">
         <attr name="ratio" />
@@ -21,6 +22,10 @@
     </declare-styleable>
 
     <declare-styleable name="CircleShrinkMenuLayout">
-        <attr name="child_item_size"/>
+        <attr name="child_item_size" />
+    </declare-styleable>
+
+    <declare-styleable name="RadarView">
+        <attr name="view_size"/>
     </declare-styleable>
 </resources>
