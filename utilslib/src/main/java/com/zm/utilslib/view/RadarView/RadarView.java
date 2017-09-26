@@ -24,6 +24,7 @@ public class RadarView extends FrameLayout {
     private Context mContext;
     private int viewSize = 400;
     private Paint mPaintLine;
+    private Paint mPaintBorder;
     private Paint mPaintCircle;
     private Paint mPaintSector;
     public boolean isstart = false;
@@ -84,15 +85,21 @@ public class RadarView extends FrameLayout {
         // TODO Auto-generated method stub
         setBackgroundColor(Color.TRANSPARENT);
 
+        //宽度=10，抗锯齿，描边效果的灰色画笔
+        mPaintBorder = new Paint();
+        mPaintBorder.setStrokeWidth(10);
+        mPaintBorder.setAntiAlias(true);
+        mPaintBorder.setStyle(Paint.Style.STROKE);
+        mPaintBorder.setColor(Color.GRAY);
 
-        //宽度=5，抗锯齿，描边效果的白色画笔
+        //宽度=1，抗锯齿，描边效果的白色画笔
         mPaintLine = new Paint();
         mPaintLine.setStrokeWidth(1);
         mPaintLine.setAntiAlias(true);
         mPaintLine.setStyle(Paint.Style.STROKE);
         mPaintLine.setColor(Color.WHITE);
 
-        //宽度=5，抗锯齿，描边效果的浅绿色画笔
+        //宽度=1，抗锯齿，描边效果的浅绿色画笔
         mPaintCircle = new Paint();
         mPaintCircle.setStrokeWidth(1);
         mPaintCircle.setAntiAlias(true);
@@ -153,7 +160,7 @@ public class RadarView extends FrameLayout {
         if (hide) {
             setBackgroundColor(Color.parseColor("#00000000"));
         } else {
-            canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 2, mPaintCircle);
+            canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 2 , mPaintCircle);
             canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 3, mPaintLine);
             canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 6, mPaintLine);
             canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 2, mPaintLine);
@@ -192,7 +199,7 @@ public class RadarView extends FrameLayout {
 
             //根据matrix中设定角度，不断绘制shader,呈现出一种扇形扫描效果
             canvas.concat(matrix);
-            canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 2, mPaintSector);
+            canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 2 , mPaintSector);
         }
 
         super.onDraw(canvas);

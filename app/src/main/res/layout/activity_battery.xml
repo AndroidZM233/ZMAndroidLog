@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#121111"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context="com.zm.zmandroidlog.customview.BatteryView.BatteryActivity">
+
+    <com.zm.utilslib.view.BatteryView
+        android:id="@+id/horizontalBattery"
+        android:layout_width="30dp"
+        android:layout_height="14dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="5dp"
+        android:background="#00000000"
+        android:gravity="center"
+        app:batteryColor="@android:color/white"
+        app:batteryOrientation="horizontal"
+        app:batteryPower="70" />
+
+    <com.zm.utilslib.view.BatteryView
+        android:id="@+id/verticalBattery"
+        android:layout_width="14dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="5dp"
+        android:background="#fff"
+        android:gravity="center"
+        app:batteryOrientation="vertical"
+        />
+</LinearLayout>

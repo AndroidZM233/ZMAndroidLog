@@ -7,6 +7,9 @@
 ## customView
 * cardViewPager 滑动当前item变大其他变小
 * pieChart 饼状图
+* CircleActivity 圆形旋转菜单
+* CircleShrinkActivity 圆形旋转缩放菜单
+* RadarViewActivity 雷达view
 # UtilsLib
 ## How to use UtilsLib
 ![image](https://github.com/AndroidZM233/ZMAndroidLog/blob/master/Pic/HowTo.png)
@@ -51,3 +54,6 @@ MyApp extends BaseApplication
 ## view
 * CardViewPager 图片ViewPager
 * LinkedViewPager ViewPager联动
+* CircleMenuLayout 圆形旋转菜单
+* CircleShrinkMenuLayout 圆形旋转缩放菜单
+* RadarView 雷达view

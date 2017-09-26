@@ -28,4 +28,15 @@
     <declare-styleable name="RadarView">
         <attr name="view_size"/>
     </declare-styleable>
+
+
+    <!--电池-->
+    <declare-styleable name="Battery">
+        <attr name="batteryOrientation">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+        <attr name="batteryColor" format="color"/>
+        <attr name="batteryPower" format="integer"/>
+    </declare-styleable>
 </resources>

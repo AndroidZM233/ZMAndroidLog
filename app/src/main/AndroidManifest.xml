@@ -22,7 +22,8 @@
         <activity android:name=".customview.cardviewpager.CardViewPagerActivity" />
         <activity android:name=".customview.CircleMenu.CircleActivity" />
         <activity android:name=".customview.CircleMenu.CircleShrinkActivity" />
-        <activity android:name=".customview.RadarView.RadarViewActivity"></activity>
+        <activity android:name=".customview.RadarView.RadarViewActivity" />
+        <activity android:name=".customview.BatteryView.BatteryActivity"></activity>
     </application>
 
 </manifest>
