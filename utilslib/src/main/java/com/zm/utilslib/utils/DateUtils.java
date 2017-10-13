@@ -96,18 +96,19 @@ public class DateUtils {
     /**
      * 时间到秒+周几 如：2017-08-22 16:02:38 周二
      */
-    public static String FORMAT_E="yyyy-MM-dd HH:mm:ss E";
+    public static String FORMAT_E = "yyyy-MM-dd HH:mm:ss E";
 
 
     /**
      * 获取当前日期
+     *
      * @param format 日期格式
      * @return String
      */
-    public static String getCurrentTimeMillis(String format){
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat=new SimpleDateFormat(format);
+    public static String getCurrentTimeMillis(String format) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat(format);
         long currentTimeMillis = System.currentTimeMillis();
-        Date date=new Date(currentTimeMillis);
+        Date date = new Date(currentTimeMillis);
         return dateFormat.format(date);
     }
 
@@ -122,6 +123,7 @@ public class DateUtils {
         calendar.setTime(date);
         return calendar.get(Calendar.YEAR);
     }
+
     /**
      * 功能描述：返回当前年
      *
@@ -144,6 +146,7 @@ public class DateUtils {
         calendar.setTime(date);
         return calendar.get(Calendar.MONTH) + 1;
     }
+
     /**
      * 功能描述：返回月
      *
@@ -166,6 +169,7 @@ public class DateUtils {
         calendar.setTime(date);
         return calendar.get(Calendar.DAY_OF_MONTH);
     }
+
     /**
      * 功能描述：返回当前日
      *
@@ -187,6 +191,7 @@ public class DateUtils {
         calendar.setTime(date);
         return calendar.get(Calendar.HOUR_OF_DAY);
     }
+
     /**
      * 功能描述：返回当前小时
      *
@@ -208,6 +213,7 @@ public class DateUtils {
         calendar.setTime(date);
         return calendar.get(Calendar.MINUTE);
     }
+
     /**
      * 功能描述：返回当前分钟
      *
@@ -229,6 +235,7 @@ public class DateUtils {
         calendar.setTime(date);
         return calendar.get(Calendar.SECOND);
     }
+
     /**
      * 返回当前秒钟
      *
@@ -250,6 +257,7 @@ public class DateUtils {
         calendar.setTime(date);
         return calendar.get(Calendar.MILLISECOND);
     }
+
     /**
      * 功能描述：返回当前毫秒
      *
@@ -258,5 +266,37 @@ public class DateUtils {
     public static long getMillis() {
         Calendar calendar = Calendar.getInstance();
         return calendar.get(Calendar.MILLISECOND);
+    }
+
+     /*
+
+    获取当前时间之前或之后几分钟 minute
+
+    */
+
+    public static String getTimeByMinute(int minute, String format) {
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.add(Calendar.MINUTE, minute);
+
+        return new SimpleDateFormat(format).format(calendar.getTime());
+
+    }
+
+    /*
+
+    获取当前时间之前或之后几小时 hour
+
+   */
+
+    public static String getTimeByHour(int hour, String format) {
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY) + hour);
+
+        return new SimpleDateFormat(format).format(calendar.getTime());
+
     }
 }
