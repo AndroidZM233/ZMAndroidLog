@@ -20,7 +20,9 @@ Utils.init(context);
 MyApp extends BaseApplication
 ```
 ## utils
+* data-BCDUtils ---bcd编码转换
 * data-ByteUtils ---byte数据转换
+* data-CRC16Utils ---CRC16编码转换
 * data-IntegerUtils ---int转换
 * data-StringUtils ---String数据判断、转换
 * AppUtils ---APP相关信息工具类
@@ -54,6 +56,7 @@ MyApp extends BaseApplication
 ## view
 * CardViewPager 图片ViewPager
 * LinkedViewPager ViewPager联动
+* MovingImageView 图片移动view
 * CircleMenuLayout 圆形旋转菜单
 * CircleShrinkMenuLayout 圆形旋转缩放菜单
 * RadarView 雷达view

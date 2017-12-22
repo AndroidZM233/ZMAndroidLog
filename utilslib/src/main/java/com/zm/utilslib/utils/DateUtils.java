@@ -33,6 +33,12 @@ import java.util.Date;
  */
 
 public class DateUtils {
+
+    /**
+     * 无符号
+     */
+    public static String FORMAT_yyyyMMddHHmmss = "yyyyMMddHHmmss";
+
     /**
      * 英文简写如：2010
      */
@@ -111,6 +117,25 @@ public class DateUtils {
         Date date = new Date(currentTimeMillis);
         return dateFormat.format(date);
     }
+
+    /**
+     * 转换时间日期格式字串为long型
+     *
+     * @param time 格式为：yyyy-MM-dd HH:mm的时间日期类型
+     */
+    public static Long convertTimeToLong(String format,String time) {
+        Date date = null;
+        try {
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf =
+                    new SimpleDateFormat(format);
+            date = sdf.parse(time);
+            return date.getTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
+
 
     /**
      * 功能描述：返回年

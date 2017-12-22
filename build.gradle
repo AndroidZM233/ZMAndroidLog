@@ -34,4 +34,12 @@ project.ext {
     targetSdkVersion = 25
     supportVersion = "25.1.1"
     junitVersion = "4.12"
+
+    retrofitVersion = '2.2.0'
+    okhttploggingVersion = '3.4.1'
+    okhttpVersion = '3.4.1'
+    rxjavaVersion = '2.0.1'
+    rxandroidVersion = '2.0.1'
+    rxbindingVersion = '2.0.0'
+    rxPerssionsVersion = '0.9.4@aar'
 }

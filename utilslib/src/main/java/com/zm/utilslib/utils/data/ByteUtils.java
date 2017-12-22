@@ -1,6 +1,8 @@
 package com.zm.utilslib.utils.data;
 
 
+import java.util.Arrays;
+
 /**
  * byte数据转换
  * Created by 张明_ on 2017/8/21.
@@ -12,6 +14,7 @@ public class ByteUtils {
     /**
      * byte[] --> 16进制String
      * byte[]{0x2B, 0x44, 0xEF,0xD9} --> "2B44EFD9"
+     *
      * @param byteArray byte[]
      * @return 16进制String
      */
@@ -34,6 +37,7 @@ public class ByteUtils {
     /**
      * byte[] -> ascii String
      * {0x71,0x72,0x73,0x41,0x42}->"qrsAB"
+     *
      * @param byteArray byte[]
      * @return String
      */
@@ -51,17 +55,50 @@ public class ByteUtils {
     }
 
     /**
+     * bytes转int(10)
+     *
+     * @param bytes
+     * @return
+     */
+    public static int toInt(byte[] bytes) {
+        String hexString = toHexString(bytes);
+        return Integer.parseInt(hexString, 16);
+    }
+
+
+    /**
      * 从bytes上截取一段
-     * @param bytes 母体
-     * @param off 起始
+     *
+     * @param bytes  母体
+     * @param off    起始
      * @param length 个数
      * @return byte[]
      */
-    public static byte[] arrayCopy(byte[] bytes, int off, int length){
+    public static byte[] arrayCopy(byte[] bytes, int off, int length) {
         byte[] bytess = new byte[length];
         System.arraycopy(bytes, off, bytess, 0, length);
         return bytess;
     }
 
+    /**
+     * 多个数组合并
+     *
+     * @param first
+     * @param rest
+     * @return
+     */
+    public static byte[] concatAll(byte[] first, byte[]... rest) {
+        int totalLength = first.length;
+        for (byte[] array : rest) {
+            totalLength += array.length;
+        }
+        byte[] result = Arrays.copyOf(first, totalLength);
+        int offset = first.length;
+        for (byte[] array : rest) {
+            System.arraycopy(array, 0, result, offset, array.length);
+            offset += array.length;
+        }
+        return result;
+    }
 
 }

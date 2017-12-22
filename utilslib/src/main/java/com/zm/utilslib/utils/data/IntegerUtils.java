@@ -11,6 +11,7 @@ public class IntegerUtils {
 
     /**
      * 转16进制String
+     *
      * @param result int
      * @return HexString
      */
@@ -24,5 +25,14 @@ public class IntegerUtils {
             toHexString = toHexString.substring(1, 3);
         }
         return toHexString;
+    }
+
+
+    public static byte[] toBytes(int int10) {
+        String hexString = Integer.toHexString(int10);
+        if (hexString.length() == 1) {
+            hexString = "0" + hexString;
+        }
+        return StringUtils.hexStringToByteArray(hexString);
     }
 }
