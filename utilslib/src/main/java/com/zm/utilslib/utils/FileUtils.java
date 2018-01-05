@@ -138,6 +138,12 @@ public class FileUtils {
         }
     }
 
+    //获取文件夹下文件
+    public File[] getFiles(String path) {
+        File file = new File(path);
+        File[] files = file.listFiles();
+        return files;
+    }
 
     /**
      * 写文件
