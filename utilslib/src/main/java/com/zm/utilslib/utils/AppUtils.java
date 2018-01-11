@@ -37,6 +37,15 @@ public final class AppUtils {
     private static final boolean DEBUG = true;
 
     /**
+     * 获取上下文对象
+     *
+     * @return 上下文对象
+     */
+    public static Context getContext() {
+        return Utils.getApp().getApplicationContext();
+    }
+
+    /**
      * 得到软件版本号
      *
      * @param context 上下文

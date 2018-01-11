@@ -61,22 +61,69 @@ public class StringUtils {
         return true;
     }
 
+
     /**
-     * 手机号验证
+     * 判断字符串是否是邮箱
      *
-     * @param str String
-     * @return 验证通过返回true
+     * @param email email
+     * @return 字符串是否是邮箱
      */
-    public static boolean isMobile(String str) {
-        Pattern p = null;
-        Matcher m = null;
-        boolean b = false;
-        p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号
-        m = p.matcher(str);
-        b = m.matches();
-        return b;
+    public static boolean isEmail(String email) {
+        String str = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(" +
+                "([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
+        Pattern p = Pattern.compile(str);
+        Matcher m = p.matcher(email);
+        return m.matches();
     }
 
+    /**
+     * 判断手机号字符串是否合法
+     *
+     * @param phoneNumber 手机号字符串
+     * @return 手机号字符串是否合法
+     */
+    public static boolean isPhoneNumberValid(String phoneNumber) {
+        boolean isValid = false;
+        String expression = "^1[3|4|5|7|8]\\d{9}$";
+        CharSequence inputStr = phoneNumber;
+        Pattern pattern = Pattern.compile(expression);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (matcher.matches()) {
+            isValid = true;
+        }
+        return isValid;
+    }
+
+    /**
+     * 判断手机号字符串是否合法
+     *
+     * @param areaCode    区号
+     * @param phoneNumber 手机号字符串
+     * @return 手机号字符串是否合法
+     */
+    public static boolean isPhoneNumberValid(String areaCode, String phoneNumber) {
+        if (TextUtils.isEmpty(phoneNumber)) {
+            return false;
+        }
+
+        if (phoneNumber.length() < 5) {
+            return false;
+        }
+
+        if (TextUtils.equals(areaCode, "+86") || TextUtils.equals(areaCode, "86")) {
+            return isPhoneNumberValid(phoneNumber);
+        }
+
+        boolean isValid = false;
+        String expression = "^[0-9]*$";
+        CharSequence inputStr = phoneNumber;
+        Pattern pattern = Pattern.compile(expression);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (matcher.matches()) {
+            isValid = true;
+        }
+        return isValid;
+    }
 
     /**
      * 16进制String  --> byte[]
@@ -136,5 +183,109 @@ public class StringUtils {
             str.append(s4);
         }
         return str.toString();
+    }
+
+
+    /**
+     * utf-8 转换成 unicode
+     *
+     * @param inStr
+     * @return
+     */
+    public static String utf8ToUnicode(String inStr) {
+        char[] myBuffer = inStr.toCharArray();
+
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < inStr.length(); i++) {
+            Character.UnicodeBlock ub = Character.UnicodeBlock.of(myBuffer[i]);
+            if (ub == Character.UnicodeBlock.BASIC_LATIN) {
+                //英文及数字等
+                sb.append(myBuffer[i]);
+            } else if (ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
+                //全角半角字符
+                int j = (int) myBuffer[i] - 65248;
+                sb.append((char) j);
+            } else {
+                //汉字
+                short s = (short) myBuffer[i];
+                String hexS = Integer.toHexString(s);
+                String unicode = "\\u" + hexS;
+                sb.append(unicode.toLowerCase());
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * unicode 转换成 utf-8
+     *
+     * @param theString
+     * @return
+     */
+    public static String unicodeToUtf8(String theString) {
+        char aChar;
+        int len = theString.length();
+        StringBuffer outBuffer = new StringBuffer(len);
+        for (int x = 0; x < len; ) {
+            aChar = theString.charAt(x++);
+            if (aChar == '\\') {
+                aChar = theString.charAt(x++);
+                if (aChar == 'u') {
+                    // Read the xxxx
+                    int value = 0;
+                    for (int i = 0; i < 4; i++) {
+                        aChar = theString.charAt(x++);
+                        switch (aChar) {
+                            case '0':
+                            case '1':
+                            case '2':
+                            case '3':
+                            case '4':
+                            case '5':
+                            case '6':
+                            case '7':
+                            case '8':
+                            case '9':
+                                value = (value << 4) + aChar - '0';
+                                break;
+                            case 'a':
+                            case 'b':
+                            case 'c':
+                            case 'd':
+                            case 'e':
+                            case 'f':
+                                value = (value << 4) + 10 + aChar - 'a';
+                                break;
+                            case 'A':
+                            case 'B':
+                            case 'C':
+                            case 'D':
+                            case 'E':
+                            case 'F':
+                                value = (value << 4) + 10 + aChar - 'A';
+                                break;
+                            default:
+                                throw new IllegalArgumentException(
+                                        "Malformed   \\uxxxx   encoding.");
+                        }
+                    }
+                    outBuffer.append((char) value);
+                } else {
+                    if (aChar == 't') {
+                        aChar = '\t';
+                    } else if (aChar == 'r') {
+                        aChar = '\r';
+                    } else if (aChar == 'n') {
+                        aChar = '\n';
+                    } else if (aChar == 'f') {
+                        aChar = '\f';
+                    }
+                    outBuffer.append(aChar);
+                }
+            } else {
+                outBuffer.append(aChar);
+            }
+        }
+        return outBuffer.toString();
     }
 }

@@ -49,6 +49,11 @@ public class BaseApplication extends Application {
         activityList.add(activity);
     }
 
+
+    public void removeActivity(Activity activity) {
+        activityList.remove(activity);
+    }
+
     /**
      * 退出所有的Activity
      */

@@ -24,6 +24,7 @@ MyApp extends BaseApplication
 * data-ByteUtils ---byte数据转换
 * data-CRC16Utils ---CRC16编码转换
 * data-IntegerUtils ---int转换
+* data-PxSpDipDpUtils ---像素转换
 * data-StringUtils ---String数据判断、转换
 * AppUtils ---APP相关信息工具类
 * ArrayUtils ---数组工具类
@@ -37,6 +38,7 @@ MyApp extends BaseApplication
 * EncryptUtils ---加密解密相关的工具类
 * FileUtils ---文件操作工具类
 * FragmentUtils ---Fragment相关工具类
+* GsonUtils ---gson工具类
 * ImageUtils ---图片相关工具类
 * IntentUtils ---意图相关工具类
 * LogBlankjUtils ---Blankj大神log工具类
@@ -47,6 +49,7 @@ MyApp extends BaseApplication
 * ScreenUtils ---屏幕相关工具类
 * ServiceUtils ---服务相关工具类
 * SnackbarUtils ---Snackbar相关工具类
+* StatusBarUtil ---状态栏设置
 * Utils ---Utils初始化相关
 * ZipUtils ---压缩相关工具类
 ## base

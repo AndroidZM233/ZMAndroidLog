@@ -1,8 +1,11 @@
 package com.zm.utilslib.utils;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -27,6 +30,7 @@ import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.renderscript.Allocation;
@@ -36,6 +40,7 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import java.io.BufferedInputStream;
@@ -72,7 +77,9 @@ public final class ImageUtils {
      * @return 字节数组
      */
     public static byte[] bitmap2Bytes(final Bitmap bitmap, final CompressFormat format) {
-        if (bitmap == null) return null;
+        if (bitmap == null) {
+            return null;
+        }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(format, 100, baos);
         return baos.toByteArray();
@@ -153,7 +160,9 @@ public final class ImageUtils {
      * @return bitmap
      */
     public static Bitmap view2Bitmap(final View view) {
-        if (view == null) return null;
+        if (view == null) {
+            return null;
+        }
         Bitmap ret = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(ret);
         Drawable bgDrawable = view.getBackground();
@@ -175,7 +184,9 @@ public final class ImageUtils {
      * @return 采样大小
      */
     private static int calculateInSampleSize(final BitmapFactory.Options options, final int maxWidth, final int maxHeight) {
-        if (maxWidth == 0 || maxHeight == 0) return 1;
+        if (maxWidth == 0 || maxHeight == 0) {
+            return 1;
+        }
         int height = options.outHeight;
         int width = options.outWidth;
         int inSampleSize = 1;
@@ -192,7 +203,9 @@ public final class ImageUtils {
      * @return bitmap
      */
     public static Bitmap getBitmap(final File file) {
-        if (file == null) return null;
+        if (file == null) {
+            return null;
+        }
         InputStream is = null;
         try {
             is = new BufferedInputStream(new FileInputStream(file));
@@ -214,7 +227,9 @@ public final class ImageUtils {
      * @return bitmap
      */
     public static Bitmap getBitmap(final File file, final int maxWidth, final int maxHeight) {
-        if (file == null) return null;
+        if (file == null) {
+            return null;
+        }
         InputStream is = null;
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
@@ -239,7 +254,9 @@ public final class ImageUtils {
      * @return bitmap
      */
     public static Bitmap getBitmap(final String filePath) {
-        if (isSpace(filePath)) return null;
+        if (isSpace(filePath)) {
+            return null;
+        }
         return BitmapFactory.decodeFile(filePath);
     }
 
@@ -268,7 +285,9 @@ public final class ImageUtils {
      * @return bitmap
      */
     public static Bitmap getBitmap(final InputStream is) {
-        if (is == null) return null;
+        if (is == null) {
+            return null;
+        }
         return BitmapFactory.decodeStream(is);
     }
 
@@ -281,7 +300,9 @@ public final class ImageUtils {
      * @return bitmap
      */
     public static Bitmap getBitmap(final InputStream is, final int maxWidth, final int maxHeight) {
-        if (is == null) return null;
+        if (is == null) {
+            return null;
+        }
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeStream(is, null, options);
@@ -298,7 +319,9 @@ public final class ImageUtils {
      * @return bitmap
      */
     public static Bitmap getBitmap(final byte[] data, final int offset) {
-        if (data.length == 0) return null;
+        if (data.length == 0) {
+            return null;
+        }
         return BitmapFactory.decodeByteArray(data, offset, data.length);
     }
 
@@ -312,7 +335,9 @@ public final class ImageUtils {
      * @return bitmap
      */
     public static Bitmap getBitmap(final byte[] data, final int offset, final int maxWidth, final int maxHeight) {
-        if (data.length == 0) return null;
+        if (data.length == 0) {
+            return null;
+        }
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeByteArray(data, offset, data.length, options);
@@ -355,7 +380,9 @@ public final class ImageUtils {
      * @return bitmap
      */
     public static Bitmap getBitmap(final FileDescriptor fd) {
-        if (fd == null) return null;
+        if (fd == null) {
+            return null;
+        }
         return BitmapFactory.decodeFileDescriptor(fd);
     }
 
@@ -368,7 +395,9 @@ public final class ImageUtils {
      * @return bitmap
      */
     public static Bitmap getBitmap(final FileDescriptor fd, final int maxWidth, final int maxHeight) {
-        if (fd == null) return null;
+        if (fd == null) {
+            return null;
+        }
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFileDescriptor(fd, null, options);
@@ -399,9 +428,13 @@ public final class ImageUtils {
      * @return 缩放后的图片
      */
     public static Bitmap scale(final Bitmap src, final int newWidth, final int newHeight, final boolean recycle) {
-        if (isEmptyBitmap(src)) return null;
+        if (isEmptyBitmap(src)) {
+            return null;
+        }
         Bitmap ret = Bitmap.createScaledBitmap(src, newWidth, newHeight, true);
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return ret;
     }
 
@@ -427,11 +460,15 @@ public final class ImageUtils {
      * @return 缩放后的图片
      */
     public static Bitmap scale(final Bitmap src, final float scaleWidth, final float scaleHeight, final boolean recycle) {
-        if (isEmptyBitmap(src)) return null;
+        if (isEmptyBitmap(src)) {
+            return null;
+        }
         Matrix matrix = new Matrix();
         matrix.setScale(scaleWidth, scaleHeight);
         Bitmap ret = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return ret;
     }
 
@@ -461,9 +498,13 @@ public final class ImageUtils {
      * @return 裁剪后的图片
      */
     public static Bitmap clip(final Bitmap src, final int x, final int y, final int width, final int height, final boolean recycle) {
-        if (isEmptyBitmap(src)) return null;
+        if (isEmptyBitmap(src)) {
+            return null;
+        }
         Bitmap ret = Bitmap.createBitmap(src, x, y, width, height);
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return ret;
     }
 
@@ -518,11 +559,15 @@ public final class ImageUtils {
      * @return 倾斜后的图片
      */
     public static Bitmap skew(final Bitmap src, final float kx, final float ky, final float px, final float py, final boolean recycle) {
-        if (isEmptyBitmap(src)) return null;
+        if (isEmptyBitmap(src)) {
+            return null;
+        }
         Matrix matrix = new Matrix();
         matrix.setSkew(kx, ky, px, py);
         Bitmap ret = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return ret;
     }
 
@@ -550,12 +595,18 @@ public final class ImageUtils {
      * @return 旋转后的图片
      */
     public static Bitmap rotate(final Bitmap src, final int degrees, final float px, final float py, final boolean recycle) {
-        if (isEmptyBitmap(src)) return null;
-        if (degrees == 0) return src;
+        if (isEmptyBitmap(src)) {
+            return null;
+        }
+        if (degrees == 0) {
+            return src;
+        }
         Matrix matrix = new Matrix();
         matrix.setRotate(degrees, px, py);
         Bitmap ret = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return ret;
     }
 
@@ -608,7 +659,9 @@ public final class ImageUtils {
      * @return 圆形图片
      */
     public static Bitmap toRound(final Bitmap src, final boolean recycle) {
-        if (isEmptyBitmap(src)) return null;
+        if (isEmptyBitmap(src)) {
+            return null;
+        }
         int width = src.getWidth();
         int height = src.getHeight();
         int radius = Math.min(width, height) >> 1;
@@ -621,7 +674,9 @@ public final class ImageUtils {
         canvas.drawCircle(width >> 1, height >> 1, radius, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(src, rect, rect, paint);
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return ret;
     }
 
@@ -645,7 +700,9 @@ public final class ImageUtils {
      * @return 圆角图片
      */
     public static Bitmap toRoundCorner(final Bitmap src, final float radius, final boolean recycle) {
-        if (null == src) return null;
+        if (null == src) {
+            return null;
+        }
         int width = src.getWidth();
         int height = src.getHeight();
         Bitmap ret = Bitmap.createBitmap(width, height, src.getConfig());
@@ -656,7 +713,9 @@ public final class ImageUtils {
         canvas.drawRoundRect(new RectF(rect), radius, radius, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(src, rect, rect, paint);
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return ret;
     }
 
@@ -689,12 +748,16 @@ public final class ImageUtils {
                                   @FloatRange(from = 0, to = 1, fromInclusive = false) final float scale,
                                   @FloatRange(from = 0, to = 25, fromInclusive = false) final float radius,
                                   boolean recycle) {
-        if (isEmptyBitmap(src)) return null;
+        if (isEmptyBitmap(src)) {
+            return null;
+        }
         int width = src.getWidth();
         int height = src.getHeight();
         int scaleWidth = (int) (width * scale + 0.5f);
         int scaleHeight = (int) (height * scale + 0.5f);
-        if (scaleWidth == 0 || scaleHeight == 0) return null;
+        if (scaleWidth == 0 || scaleHeight == 0) {
+            return null;
+        }
         Bitmap scaleBitmap = Bitmap.createScaledBitmap(src, scaleWidth, scaleHeight, true);
         Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG | Paint.ANTI_ALIAS_FLAG);
         Canvas canvas = new Canvas();
@@ -708,10 +771,16 @@ public final class ImageUtils {
         } else {
             scaleBitmap = stackBlur(scaleBitmap, (int) radius, recycle);
         }
-        if (scale == 1) return scaleBitmap;
+        if (scale == 1) {
+            return scaleBitmap;
+        }
         Bitmap ret = Bitmap.createScaledBitmap(scaleBitmap, width, height, true);
-        if (scaleBitmap != null && !scaleBitmap.isRecycled()) scaleBitmap.recycle();
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (scaleBitmap != null && !scaleBitmap.isRecycled()) {
+            scaleBitmap.recycle();
+        }
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return ret;
     }
 
@@ -726,7 +795,9 @@ public final class ImageUtils {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static Bitmap renderScriptBlur(final Bitmap src,
                                           @FloatRange(from = 0, to = 25, fromInclusive = false) final float radius) {
-        if (isEmptyBitmap(src)) return null;
+        if (isEmptyBitmap(src)) {
+            return null;
+        }
         RenderScript rs = null;
         try {
             rs = RenderScript.create(Utils.getApp());
@@ -981,7 +1052,9 @@ public final class ImageUtils {
      * @return 带颜色边框图
      */
     public static Bitmap addFrame(final Bitmap src, final int borderWidth, final int color, final boolean recycle) {
-        if (isEmptyBitmap(src)) return null;
+        if (isEmptyBitmap(src)) {
+            return null;
+        }
         int doubleBorder = borderWidth << 1;
         int newWidth = src.getWidth() + doubleBorder;
         int newHeight = src.getHeight() + doubleBorder;
@@ -996,7 +1069,9 @@ public final class ImageUtils {
         paint.setStrokeWidth(doubleBorder);
         Rect rect = new Rect(0, 0, newWidth, newHeight);
         canvas.drawRect(rect, paint);
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return ret;
     }
 
@@ -1020,7 +1095,9 @@ public final class ImageUtils {
      * @return 带倒影图片
      */
     public static Bitmap addReflection(final Bitmap src, final int reflectionHeight, final boolean recycle) {
-        if (isEmptyBitmap(src)) return null;
+        if (isEmptyBitmap(src)) {
+            return null;
+        }
         // 原图与倒影之间的间距
         final int REFLECTION_GAP = 0;
         int srcWidth = src.getWidth();
@@ -1042,8 +1119,12 @@ public final class ImageUtils {
         paint.setXfermode(new PorterDuffXfermode(android.graphics.PorterDuff.Mode.DST_IN));
         canvas.drawRect(0, srcHeight + REFLECTION_GAP,
                 srcWidth, ret.getHeight(), paint);
-        if (!reflectionBitmap.isRecycled()) reflectionBitmap.recycle();
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (!reflectionBitmap.isRecycled()) {
+            reflectionBitmap.recycle();
+        }
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return ret;
     }
 
@@ -1086,7 +1167,9 @@ public final class ImageUtils {
                                           final float x,
                                           final float y,
                                           final boolean recycle) {
-        if (isEmptyBitmap(src) || content == null) return null;
+        if (isEmptyBitmap(src) || content == null) {
+            return null;
+        }
         Bitmap ret = src.copy(src.getConfig(), true);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         Canvas canvas = new Canvas(ret);
@@ -1095,7 +1178,9 @@ public final class ImageUtils {
         Rect bounds = new Rect();
         paint.getTextBounds(content, 0, content.length(), bounds);
         canvas.drawText(content, x, y + textSize, paint);
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return ret;
     }
 
@@ -1125,7 +1210,9 @@ public final class ImageUtils {
      * @return 带有图片水印的图片
      */
     public static Bitmap addImageWatermark(final Bitmap src, final Bitmap watermark, final int x, final int y, final int alpha, final boolean recycle) {
-        if (isEmptyBitmap(src)) return null;
+        if (isEmptyBitmap(src)) {
+            return null;
+        }
         Bitmap ret = src.copy(src.getConfig(), true);
         if (!isEmptyBitmap(watermark)) {
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -1133,7 +1220,9 @@ public final class ImageUtils {
             paint.setAlpha(alpha);
             canvas.drawBitmap(watermark, x, y, paint);
         }
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return ret;
     }
 
@@ -1155,9 +1244,13 @@ public final class ImageUtils {
      * @return alpha位图
      */
     public static Bitmap toAlpha(final Bitmap src, final Boolean recycle) {
-        if (isEmptyBitmap(src)) return null;
+        if (isEmptyBitmap(src)) {
+            return null;
+        }
         Bitmap ret = src.extractAlpha();
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return ret;
     }
 
@@ -1179,7 +1272,9 @@ public final class ImageUtils {
      * @return 灰度图
      */
     public static Bitmap toGray(final Bitmap src, final boolean recycle) {
-        if (isEmptyBitmap(src)) return null;
+        if (isEmptyBitmap(src)) {
+            return null;
+        }
         Bitmap grayBitmap = Bitmap.createBitmap(src.getWidth(),
                 src.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(grayBitmap);
@@ -1189,7 +1284,9 @@ public final class ImageUtils {
         ColorMatrixColorFilter colorMatrixColorFilter = new ColorMatrixColorFilter(colorMatrix);
         paint.setColorFilter(colorMatrixColorFilter);
         canvas.drawBitmap(src, 0, 0, paint);
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return grayBitmap;
     }
 
@@ -1240,14 +1337,18 @@ public final class ImageUtils {
      * @return {@code true}: 成功<br>{@code false}: 失败
      */
     public static boolean save(final Bitmap src, final File file, final CompressFormat format, final boolean recycle) {
-        if (isEmptyBitmap(src) || !FileUtils.createOrExistsFile(file)) return false;
+        if (isEmptyBitmap(src) || !FileUtils.createOrExistsFile(file)) {
+            return false;
+        }
         System.out.println(src.getWidth() + ", " + src.getHeight());
         OutputStream os = null;
         boolean ret = false;
         try {
             os = new BufferedOutputStream(new FileOutputStream(file));
             ret = src.compress(format, 100, os);
-            if (recycle && !src.isRecycled()) src.recycle();
+            if (recycle && !src.isRecycled()) {
+                src.recycle();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -1296,7 +1397,9 @@ public final class ImageUtils {
      * @return 图片类型
      */
     public static String getImageType(final File file) {
-        if (file == null) return null;
+        if (file == null) {
+            return null;
+        }
         InputStream is = null;
         try {
             is = new FileInputStream(file);
@@ -1316,7 +1419,9 @@ public final class ImageUtils {
      * @return 图片类型
      */
     public static String getImageType(final InputStream is) {
-        if (is == null) return null;
+        if (is == null) {
+            return null;
+        }
         try {
             byte[] bytes = new byte[8];
             return is.read(bytes, 0, 8) != -1 ? getImageType(bytes) : null;
@@ -1333,10 +1438,18 @@ public final class ImageUtils {
      * @return 图片类型
      */
     public static String getImageType(final byte[] bytes) {
-        if (isJPEG(bytes)) return "JPEG";
-        if (isGIF(bytes)) return "GIF";
-        if (isPNG(bytes)) return "PNG";
-        if (isBMP(bytes)) return "BMP";
+        if (isJPEG(bytes)) {
+            return "JPEG";
+        }
+        if (isGIF(bytes)) {
+            return "GIF";
+        }
+        if (isPNG(bytes)) {
+            return "PNG";
+        }
+        if (isBMP(bytes)) {
+            return "BMP";
+        }
         return null;
     }
 
@@ -1449,11 +1562,15 @@ public final class ImageUtils {
      * @return 质量压缩后的图片
      */
     public static Bitmap compressByQuality(final Bitmap src, @IntRange(from = 0, to = 100) final int quality, final boolean recycle) {
-        if (isEmptyBitmap(src)) return null;
+        if (isEmptyBitmap(src)) {
+            return null;
+        }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         src.compress(Bitmap.CompressFormat.JPEG, quality, baos);
         byte[] bytes = baos.toByteArray();
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
@@ -1477,7 +1594,9 @@ public final class ImageUtils {
      * @return 质量压缩压缩过的图片
      */
     public static Bitmap compressByQuality(final Bitmap src, final long maxByteSize, final boolean recycle) {
-        if (isEmptyBitmap(src) || maxByteSize <= 0) return null;
+        if (isEmptyBitmap(src) || maxByteSize <= 0) {
+            return null;
+        }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         int quality = 100;
         src.compress(CompressFormat.JPEG, quality, baos);
@@ -1485,9 +1604,13 @@ public final class ImageUtils {
             baos.reset();
             src.compress(CompressFormat.JPEG, quality -= 5, baos);
         }
-        if (quality < 0) return null;
+        if (quality < 0) {
+            return null;
+        }
         byte[] bytes = baos.toByteArray();
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
@@ -1511,18 +1634,24 @@ public final class ImageUtils {
      * @return 按采样率压缩后的图片
      */
     public static Bitmap compressBySampleSize(final Bitmap src, final int sampleSize, final boolean recycle) {
-        if (isEmptyBitmap(src)) return null;
+        if (isEmptyBitmap(src)) {
+            return null;
+        }
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = sampleSize;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         src.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] bytes = baos.toByteArray();
-        if (recycle && !src.isRecycled()) src.recycle();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
     }
 
     private static boolean isSpace(final String s) {
-        if (s == null) return true;
+        if (s == null) {
+            return true;
+        }
         for (int i = 0, len = s.length(); i < len; ++i) {
             if (!Character.isWhitespace(s.charAt(i))) {
                 return false;
@@ -1573,5 +1702,280 @@ public final class ImageUtils {
             cursor.close();
         }
         return path;
+    }
+
+
+    /**
+     * 拍照
+     */
+    public static final int REQUEST_CODE_FROM_CAMERA = 1 << 10;
+
+    /**
+     * 相册
+     */
+    public static final int REQUEST_CODE_FROM_ALBUM = 1 << 12;
+
+    /**
+     * 裁剪
+     */
+    public static final int REQUEST_CODE_CROP_IMAGE = 1 << 14;
+
+    /**
+     * 存放拍照图片的uri地址
+     */
+    public static Uri imageUriFromCamera;
+
+    /**
+     * 存放裁剪图片的uri地址
+     */
+    public static Uri cropImageUri;
+
+    /**
+     * 显示获取照片不同方式对话框
+     */
+    public static void showImagePickDialog(final Activity activity) {
+        showImagePickDialog(activity, 0);
+    }
+
+    /**
+     * 显示获取照片不同方式对话框
+     */
+    public static void showImagePickDialog(final Activity activity, final int addRequest) {
+        String title = "选择获取图片方式";
+        String[] items = new String[]{"拍照", "相册"};
+        new AlertDialog.Builder(activity)
+                .setTitle(title)
+                .setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        switch (which) {
+                            case 0:
+                                pickImageFromCamera(activity, addRequest);
+                                break;
+                            case 1:
+                                pickImageFromAlbum(activity, addRequest);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .show();
+    }
+
+    /**
+     * 打开相机拍照获取图片
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public static void pickImageFromCamera(final Activity activity, int addRequest) {
+        // 先生成一个uri地址用于存放拍照获取的图片
+        imageUriFromCamera = createImageUri(activity);
+
+        Intent intent = new Intent();
+        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUriFromCamera);
+        activity.startActivityForResult(intent, REQUEST_CODE_FROM_CAMERA + addRequest);
+    }
+
+    /**
+     * 打开相机拍照获取图片
+     */
+    public static void pickImageFromCamera(final Activity activity) {
+        pickImageFromCamera(activity, 0);
+    }
+
+    /**
+     * 打开本地相册选取图片
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public static void pickImageFromAlbum(final Activity activity, int addRequest) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        activity.startActivityForResult(intent, REQUEST_CODE_FROM_ALBUM + addRequest);
+    }
+
+    /**
+     * 打开本地相册选取图片
+     */
+    public static void pickImageFromAlbum(final Activity activity) {
+        pickImageFromAlbum(activity, 0);
+    }
+
+
+    /**
+     * 图片裁剪
+     */
+    public static void cropImage(Activity activity, Uri srcUri) {
+        cropImageUri = createImageUri(activity);
+
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(srcUri, "image/*");
+        intent.putExtra("crop", "true");
+
+        ////////////////////////////////////////////////////////////////
+        // 1.宽高和比例都不设置时,裁剪框可以自行调整(比例和大小都可以随意调整)
+        ////////////////////////////////////////////////////////////////
+        // 2.只设置裁剪框宽高比(aspect)后,裁剪框比例固定不可调整,只能调整大小
+        /////////////////////////////////
+        // 3.裁剪后生成图片宽高(output)的设置和裁剪框无关,只决定最终生成图片大小
+        ////////////////////////////////////////////////////////////////
+        // 4.裁剪框宽高比例(aspect)可以和裁剪后生成图片比例(output)不同,此时,
+        //	会以裁剪框的宽为准,按照裁剪宽高比例生成一个图片,该图和框选部分可能不同,
+        //  不同的情况可能是截取框选的一部分,也可能超出框选部分,向下延伸补足
+        ////////////////////////////////////////////////////////////////
+
+        // aspectX aspectY 是裁剪框宽高的比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        // outputX outputY 是裁剪后生成图片的宽高
+        //		intent.putExtra("outputX", 300);
+        //		intent.putExtra("outputY", 100);
+
+        // return-data为true时,会直接返回bitmap数据,但是大图裁剪时会出现OOM,推荐下面为false时的方式
+        // return-data为false时,不会返回bitmap,但需要指定一个MediaStore.EXTRA_OUTPUT保存图片uri
+        intent.putExtra("return-data", false);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, cropImageUri);
+
+        activity.startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
+    }
+
+    /**
+     * 创建一条图片uri,用于保存拍照后的照片
+     */
+    private static Uri createImageUri(Context context) {
+        String name = "boreImg" + System.currentTimeMillis();
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, name);
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, name + ".jpeg");
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        Uri uri = context.getContentResolver().insert(MediaStore.Images.Media
+                .EXTERNAL_CONTENT_URI, values);
+        return uri;
+    }
+
+    /**
+     * 删除一条图片
+     */
+    public static void deleteImageUri(Context context, Uri uri) {
+        context.getContentResolver().delete(uri, null, null);
+    }
+
+    /**
+     * 用第三方应用app打开图片
+     */
+    public static void openImageByOtherApp(Context context, Uri imageUri) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setDataAndType(imageUri, "image/*");
+        context.startActivity(intent);
+    }
+
+    /**
+     * 根据Uri获取图片绝对路径，解决Android4.4以上版本Uri转换
+     */
+    public static String getImageAbsolutePath19(Context context, Uri imageUri) {
+        if (context == null || imageUri == null) {
+            return null;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                && DocumentsContract.isDocumentUri(context, imageUri)) {
+            if (isExternalStorageDocument(imageUri)) {
+                String docId = DocumentsContract.getDocumentId(imageUri);
+                String[] split = docId.split(":");
+                String type = split[0];
+                if ("primary".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
+            } else if (isDownloadsDocument(imageUri)) {
+                String id = DocumentsContract.getDocumentId(imageUri);
+                Uri contentUri = ContentUris.withAppendedId(Uri.parse
+                        ("content://downloads/public_downloads"), Long.valueOf(id));
+                return getDataColumn(context, contentUri, null, null);
+            } else if (isMediaDocument(imageUri)) {
+                String docId = DocumentsContract.getDocumentId(imageUri);
+                String[] split = docId.split(":");
+                String type = split[0];
+                Uri contentUri = null;
+                if ("image".equals(type)) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+                String selection = MediaStore.Images.Media._ID + "=?";
+                String[] selectionArgs = new String[]{split[1]};
+                return getDataColumn(context, contentUri, selection, selectionArgs);
+            }
+        }
+
+        // MediaStore (and general)
+        if ("content".equalsIgnoreCase(imageUri.getScheme())) {
+            // Return the remote address
+            if (isGooglePhotosUri(imageUri)) {
+                return imageUri.getLastPathSegment();
+            }
+            return getDataColumn(context, imageUri, null, null);
+        }
+        // File
+        else if ("file".equalsIgnoreCase(imageUri.getScheme())) {
+            return imageUri.getPath();
+        }
+        return null;
+    }
+
+    private static String getDataColumn(Context context, Uri uri, String selection, String[]
+            selectionArgs) {
+        Cursor cursor = null;
+        String column = MediaStore.Images.Media.DATA;
+        String[] projection = {column};
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection,
+                    selectionArgs, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(index);
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is ExternalStorageProvider.
+     */
+    private static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is DownloadsProvider.
+     */
+    private static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is MediaProvider.
+     */
+    private static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is Google Photos.
+     */
+    private static boolean isGooglePhotosUri(Uri uri) {
+        return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
 }

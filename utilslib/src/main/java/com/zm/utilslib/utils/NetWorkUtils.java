@@ -19,6 +19,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import static android.content.Context.WIFI_SERVICE;
 
@@ -31,9 +32,17 @@ import static android.content.Context.WIFI_SERVICE;
 
 public class NetWorkUtils {
 
+    public static final String NETWORK_TYPE_WIFI = "wifi";
+    public static final String NETWORK_TYPE_3G = "eg";
+    public static final String NETWORK_TYPE_2G = "2g";
+    public static final String NETWORK_TYPE_WAP = "wap";
+    public static final String NETWORK_TYPE_UNKNOWN = "unknown";
+    public static final String NETWORK_TYPE_DISCONNECT = "disconnect";
+
     /**
      * 拿到ConnectivityManager
      * 负责监听网络连接的状态，并发送状态变化的广播
+     *
      * @param context 上下文
      * @return ConnectivityManager
      */
@@ -44,6 +53,7 @@ public class NetWorkUtils {
 
     /**
      * 拿到WifiManager
+     *
      * @param context 上下文
      * @return WifiManager
      */
@@ -71,7 +81,7 @@ public class NetWorkUtils {
     public static boolean isNetworkConnected(Context context) {
         if (context != null) {
             ConnectivityManager mConnectivityManager = getConnectivityManager(context);
-            if (mConnectivityManager==null){
+            if (mConnectivityManager == null) {
                 return false;
             }
             NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
@@ -84,6 +94,7 @@ public class NetWorkUtils {
 
     /**
      * 判断网络是否能请求成功
+     *
      * @param context Context
      * @return boolean
      */
@@ -109,7 +120,7 @@ public class NetWorkUtils {
     public static boolean isMobileConnected(Context context) {
         if (context != null) {
             ConnectivityManager mConnectivityManager = getConnectivityManager(context);
-            if (mConnectivityManager==null){
+            if (mConnectivityManager == null) {
                 return false;
             }
             NetworkInfo mMobileNetworkInfo = mConnectivityManager
@@ -123,12 +134,13 @@ public class NetWorkUtils {
 
     /**
      * 判断是否连接WIFI
-     * @param context  上下文
-     * @return  boolean
+     *
+     * @param context 上下文
+     * @return boolean
      */
     public static boolean isWifiConnected(Context context) {
         ConnectivityManager connectivityManager = getConnectivityManager(context);
-        if (connectivityManager==null){
+        if (connectivityManager == null) {
             return false;
         }
         NetworkInfo wifiNetworkInfo = connectivityManager.getNetworkInfo(
@@ -141,12 +153,13 @@ public class NetWorkUtils {
 
     /**
      * 获取WIFI下ip地址
+     *
      * @param context 上下文
      */
     @SuppressLint("DefaultLocale")
     public static String getLocalIpAddress(Context context) {
         WifiManager wifiManager = getWifiManager(context);
-        if (wifiManager==null){
+        if (wifiManager == null) {
             return "";
         }
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
@@ -161,6 +174,7 @@ public class NetWorkUtils {
 
     /**
      * 拿到连接类型
+     *
      * @param context 上下文
      * @return int
      */
@@ -243,4 +257,118 @@ public class NetWorkUtils {
                 return NetWorkType.UnKnown;
         }
     }
+
+
+    /**
+     * Get network type
+     *
+     * @param context
+     * @return
+     */
+    public static int getNetworkType2(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager == null ? null : connectivityManager.getActiveNetworkInfo();
+        return networkInfo == null ? -1 : networkInfo.getType();
+    }
+
+    /**
+     * Get network type name
+     *
+     * @param context
+     * @return
+     */
+    public static String getNetworkTypeName(Context context) {
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo;
+        String type = NETWORK_TYPE_DISCONNECT;
+        if (manager == null || (networkInfo = manager.getActiveNetworkInfo()) == null) {
+            return type;
+        }
+
+        if (networkInfo.isConnected()) {
+            String typeName = networkInfo.getTypeName();
+            if ("WIFI".equalsIgnoreCase(typeName)) {
+                type = NETWORK_TYPE_WIFI;
+            } else if ("MOBILE".equalsIgnoreCase(typeName)) {
+                String proxyHost = android.net.Proxy.getDefaultHost();
+                type = TextUtils.isEmpty(proxyHost) ? (isFastMobileNetwork(context) ? NETWORK_TYPE_3G : NETWORK_TYPE_2G)
+                        : NETWORK_TYPE_WAP;
+            } else {
+                type = NETWORK_TYPE_UNKNOWN;
+            }
+        }
+        return type;
+    }
+
+    /**
+     * Whether is fast mobile network
+     *
+     * @param context
+     * @return
+     */
+    private static boolean isFastMobileNetwork(Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (telephonyManager == null) {
+            return false;
+        }
+
+        switch (telephonyManager.getNetworkType()) {
+            case TelephonyManager.NETWORK_TYPE_1xRTT:
+                return false;
+            case TelephonyManager.NETWORK_TYPE_CDMA:
+                return false;
+            case TelephonyManager.NETWORK_TYPE_EDGE:
+                return false;
+            case TelephonyManager.NETWORK_TYPE_EVDO_0:
+                return true;
+            case TelephonyManager.NETWORK_TYPE_EVDO_A:
+                return true;
+            case TelephonyManager.NETWORK_TYPE_GPRS:
+                return false;
+            case TelephonyManager.NETWORK_TYPE_HSDPA:
+                return true;
+            case TelephonyManager.NETWORK_TYPE_HSPA:
+                return true;
+            case TelephonyManager.NETWORK_TYPE_HSUPA:
+                return true;
+            case TelephonyManager.NETWORK_TYPE_UMTS:
+                return true;
+            case TelephonyManager.NETWORK_TYPE_EHRPD:
+                return true;
+            case TelephonyManager.NETWORK_TYPE_EVDO_B:
+                return true;
+            case TelephonyManager.NETWORK_TYPE_HSPAP:
+                return true;
+            case TelephonyManager.NETWORK_TYPE_IDEN:
+                return false;
+            case TelephonyManager.NETWORK_TYPE_LTE:
+                return true;
+            case TelephonyManager.NETWORK_TYPE_UNKNOWN:
+                return false;
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * 网络是否可用
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        try {
+            ConnectivityManager cm =
+                    (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            assert cm != null;
+            NetworkInfo info = cm.getActiveNetworkInfo();
+            return null != info && info.isConnected();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 }
