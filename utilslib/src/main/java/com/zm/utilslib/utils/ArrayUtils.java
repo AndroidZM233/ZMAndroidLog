@@ -278,7 +278,50 @@ public class ArrayUtils {
             }
         }
     }
-	/* **************************************************************2、Int数组排序相关over************************************************************ */
+
+
+    /**
+     * 快速排序
+     *
+     * @param a     数组
+     * @param left
+     * @param right
+     */
+    public static void quickSort(int[] a, int left, int right) {
+        if (left > right)
+            return;
+        int pivot = a[left];//定义基准值为数组第一个数
+        int i = left;
+        int j = right;
+
+        while (i < j) {
+            while (pivot <= a[j] && i < j)//从右往左找比基准值小的数
+            {
+                j--;
+                System.out.println("j=" + j);
+            }
+
+            while (pivot >= a[i] && i < j)//从左往右找比基准值大的数
+            {
+                i++;
+                System.out.println("i=" + i);
+            }
+
+            if (i < j)                     //如果i<j，交换它们
+            {
+                int temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+                System.out.println("互换结果：" + a[i] + "换" + a[j]);
+            }
+        }
+        a[left] = a[i];
+        a[i] = pivot;//把基准值放到合适的位置
+        System.out.println("互换基准位置：" + a[left] + "换" + a[i]);
+        quickSort(a, left, i - 1);//对左边的子数组进行快速排序
+        quickSort(a, i + 1, right);//对右边的子数组进行快速排序
+    }
+    /* **************************************************************2、Int数组排序相关over************************************************************ */
 
 
     /**

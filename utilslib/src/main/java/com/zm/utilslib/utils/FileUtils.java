@@ -152,6 +152,23 @@ public class FileUtils {
     }
 
     /**
+     * 获取指定后缀名的文件
+     *
+     * @param files
+     * @param suffix
+     * @return
+     */
+    public static List<File> getSuffixFile(File[] files, String suffix) {
+        List<File> fileLists = new ArrayList<>();
+        for (File file : files) {
+            if (file.isFile() && file.getName().endsWith(suffix)) {
+                fileLists.add(file);
+            }
+        }
+        return fileLists;
+    }
+
+    /**
      * 写文件
      *
      * @param filePath 路径
@@ -168,6 +185,8 @@ public class FileUtils {
             makeDirs(filePath);
             fileWriter = new FileWriter(filePath, append);
             fileWriter.write(content);
+            fileWriter.flush();
+            fileWriter.close();
             return true;
         } catch (IOException e) {
             throw new RuntimeException("IOException occurred. ", e);
@@ -198,6 +217,8 @@ public class FileUtils {
                 }
                 fileWriter.write(line);
             }
+            fileWriter.flush();
+            fileWriter.close();
             return true;
         } catch (IOException e) {
             throw new RuntimeException("IOException occurred. ", e);
@@ -288,6 +309,7 @@ public class FileUtils {
                 o.write(data, 0, length);
             }
             o.flush();
+            o.close();
             return true;
         } catch (FileNotFoundException e) {
             throw new RuntimeException("FileNotFoundException occurred. ", e);
