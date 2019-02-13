@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2288fe</color>
+    <color name="colorPrimaryDark">#4099ff</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="nfc_erro">#fcd2d1</color>
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="line_dwon">#e7eaed</color>
+    <color name="red">#e95c53</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="orange">#FFFA9837</color>
+    <color name="color_mywork_red">#FFF46344</color>
+    <color name="bg_color">#fff1f5f8</color>
+    <color name="blue">#4F8BD9</color>
+    <color name="transparent">#00000000</color>
+    <color name="black">#000000</color>
+    <color name="work_red">#FFF46344</color>
+    <color name="click_normal">#ededed</color>
+    <color name="gold">#EBC273</color>
+    <color name="button_green">#00B6A4</color>
+    <color name="color_bg_yellow">#FED42A</color>
+    <color name="warn_red">#FE4038</color>
+    <color name="warn_yellow">#FA9837</color>
+    <color name="warn_green">#00BB6A</color>
+    <color name="warn_not_read">#FF6418</color>
+    <color name="warn_ll_bg">#F1F5F8</color>
+    <color name="light_green">#EFFEFE</color>
+    <color name="view_line">#F1F5F8</color>
+    <color name="default_text">#8A000000</color>
+    <color name="colorLineBackground">#F1F5F9</color>
+    <color name="colorMyDevice">#ff00b6a4</color>
+    <color name="color_plan_text">#FF31B7BE</color>
+    <color name="color_overtime_bg">#0AF46344</color>
+    <color name="color_view_line">#d6d7dc</color>
+    <color name="color_star_yellow">#FFFEC810</color>
+    <color name="color_star_gray">#A9A9A9</color>
+    <color name="color_star1_gray">#71ffffff</color>
+
+    <color name="gray">#f4f4f4</color>
+
+    <color name="tab_select">#039ff2</color>
+    <color name="tab_normal">#666666</color>
+    <color name="tab_blue">#4099ff</color>
+    <color name="tab_pink">#dc81b2</color>
+    <color name="tou_ming">#00000000</color>
+    <color name="text_title">#9daab2</color>
+    <color name="text_content">#303a3f</color>
+    <color name="text_device_title">#9daab2</color>
+    <color name="text_device_content_hint">#ccd4d8</color>
+    <color name="text_device_content">#303a3f</color>
+
+    <color name="help_list">#F9FCFF</color>
+    <color name="bg_index_all">#F7FAFF</color>
+
+    <color name="date_picker_text_light">#303a3f</color>
+    <color name="date_picker_text_dark">#9daab2</color>
+</resources>

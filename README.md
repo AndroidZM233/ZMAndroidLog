@@ -58,8 +58,13 @@ MyApp extends BaseApplication
 * BaseFragment
 ## view
 * CardViewPager 图片ViewPager
+* DatePicker 日期选择
+![image](https://github.com/AndroidZM233/ZMAndroidLog/blob/master/Pic/datePicker.png)
 * LinkedViewPager ViewPager联动
 * MovingImageView 图片移动view
 * CircleMenuLayout 圆形旋转菜单
 * CircleShrinkMenuLayout 圆形旋转缩放菜单
 * RadarView 雷达view
+* BatteryView 自定义电池view
+* ClearEditText 自带清除按钮TextView
+* MarqueeTextView 跑马灯效果的textview
